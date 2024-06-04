@@ -1,0 +1,45 @@
+.bg{
+    background-image: linear-gradient(to right top, #eb455f, #e46eb0, #c19be2, #a9bef0, #bad7e9);
+}
+.bg2{
+    background-image: linear-gradient(to top, #400bff, #7d5bff, #aa93ff, #d5c9ff, #ffffff);
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+  }
+
+*{
+    scroll-behavior: smooth;
+}
+
+textarea {
+  resize: none;
+}
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #fcfcfc;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #f4cff9;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #8a06fd;
+  }
+
+  input[type="file"] {
+    display: none;
+  }
+  
+  .custom-file-upload {
+  
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+  }
+  .g{
+    font-family:-apple-system, system-ui,  BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+
+
