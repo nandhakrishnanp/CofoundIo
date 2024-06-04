@@ -22,8 +22,6 @@ Follow these instructions to set up and run Cofound on your local machine.
 ### Prerequisites
 
 - Node.js (v14.x or higher)
-- MongoDB (v4.x or higher)
-- Git
 
 ### Installation
 
