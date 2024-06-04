@@ -6,7 +6,7 @@ const sendMail =async(OTP,email)=>{
     service: 'gmail',
     auth: {
       user: '727723eumt084@skcet.ac.in',
-      pass: 'skcet123'
+      pass: process.env.PASSWORD
     }
   });
   
