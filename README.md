@@ -30,5 +30,4 @@ Follow these instructions to set up and run Cofound on your local machine.
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/yourusername/cofound.git
-   cd cofound
+   git clone https://github.com/nandhakrishnanp/CofoundIo/
