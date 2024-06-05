@@ -5,7 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { UserData, fetchUserDataByID, profileUser } from "../Store/userSlice";
 import { fetchAllPostByUser, fetchPostsByID } from "../Store/postSlice";
 import Post from "./Post";
+
+
 const Userprofile = () => {
+
   const { UserId } = useParams();
   const [user, setUser] = useState([]);
   const [Posts, setPosts] = useState([]);
@@ -13,13 +16,13 @@ const Userprofile = () => {
   const myuser = useSelector(UserData);
   const myUserId = myuser.userDetails._id;
   const nav = useNavigate();
-  
- 
   const dispatch = useDispatch();
   const userdetail = useSelector(profileUser);
   const userPost = useSelector(fetchAllPostByUser);
+
+
   useEffect(() => {
-    if(UserId==myUserId){
+    if(UserId == myUserId){
       nav("/profile")
     }
     dispatch(fetchPostsByID(UserId));
@@ -36,7 +39,7 @@ const Userprofile = () => {
   }, [userPost, userdetail]);
 
   return (
-    <div className="w-full  flex flex-col items-center     relative min-h-screen bg-Secondary ">
+    <div className="w-full flex flex-col items-center relative min-h-screen bg-Secondary ">
       <Navbar />
       {!isLoading && user ? (
         <div className="p-4 mt-3  max-lg:w-full w-3/6  mx-24 max-lg:mx-0  bg-white">
