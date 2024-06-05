@@ -9,7 +9,7 @@ const Info = () => {
   };
   return (
     <div>
-      <button onClick={log} className=" bg-primary text-white">
+      <button onClick={logS} className=" bg-primary text-white">
         click me
       </button>
     </div>
