@@ -12,6 +12,7 @@ import Userprofile from "./Components/Userprofile";
 import Teams from "./Components/Team/Teams";
 import Aos from "aos";
 import "aos/dist/aos.css";
+import Notification from "./Components/notification/Notification";
 
 Aos.init({
  once:true
@@ -42,10 +43,11 @@ function App() {
           <Route path="/profile" element={<Profile />} />
         <Route path="/profile/:UserId" element={<Userprofile/>} />
           <Route path="/teams"   element={<Teams/>}/>
+          <Route path="/notifications" element={<Notification/>}/>
         </Route>
         
         <Route path="/forget-password" element={<ForgetPassword />} />
-
+             
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </>
