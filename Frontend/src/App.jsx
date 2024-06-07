@@ -36,7 +36,7 @@ function App() {
         transition:Slide
       />
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
         <Route element={<Protectedroute />}>
           <Route path="/info" element={<Info />} />
           <Route path="/home" element={<Home />} />
