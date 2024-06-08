@@ -32,8 +32,8 @@ const notificationSlice = createSlice({
     extraReducers:(builder)=>{
         builder.addCase(fetchNotification.fulfilled,(state , action)=>{
              const payload = action.payload
-              console.log(payload)
-             state.MyNotification=payload
+             
+             state.MyNotification=payload.notification
              state.isnotification=true
         })
         builder.addCase(fetchNotification.rejected , (state,action)=>{
@@ -44,6 +44,6 @@ const notificationSlice = createSlice({
 })
 
 
-
+export const allMyNotifications = (state)=> state.notification.MyNotification
 export default notificationSlice.reducer
 export { fetchNotification}
