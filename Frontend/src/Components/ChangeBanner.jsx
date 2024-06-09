@@ -1,6 +1,6 @@
 import React from "react";
 import { toast } from "react-toastify";
-
+import addimg from "../assets/addimg.svg";
 const ChangeBanner = ({
   setOpenBanner,
   handleBannerUpload,
@@ -22,7 +22,11 @@ const ChangeBanner = ({
               className=" object-contain"
             />
           ) : (
-            <input
+            <div>
+               <label for="profileImg" class="custom-file-upload">
+                      <img src={addimg} className="w-[30px]" alt="" />
+                    </label>
+ <input
               type="file"
               name="image"
               id="profileImg"
@@ -32,6 +36,8 @@ const ChangeBanner = ({
                 setBannerImg(img);
               }}
             />
+            </div>
+           
           )}
         </div>
         <div className="flex  gap-4 p-4 justify-end">

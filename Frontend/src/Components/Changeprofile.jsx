@@ -1,6 +1,6 @@
 import React from "react";
 import { toast } from "react-toastify";
-
+import addimg from "../assets/addimg.svg";
 const Changeprofile = ({
   setOpenFile,
   setProfileImg,
@@ -44,16 +44,21 @@ const Changeprofile = ({
               className=" object-contain"
             />
           ) : (
-            <input
-              type="file"
-              name="image"
-              id="profileImg"
-              className="   .custom-file-upload "
-              onChange={(e) => {
-                const img = e.target.files[0];
-                setProfileImg(img);
-              }}
-            />
+            <div>
+ <label for="profileImg" class="custom-file-upload">
+                      <img src={addimg} className="w-[30px]" alt="" />
+                    </label>
+              <input
+                type="file"
+                name="image"
+                id="profileImg"
+                className="   .custom-file-upload "
+                onChange={(e) => {
+                  const img = e.target.files[0];
+                  setProfileImg(img);
+                }}
+              />
+            </div>
           )}
         </div>
         <div className="mx-6">
