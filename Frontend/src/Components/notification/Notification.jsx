@@ -21,6 +21,8 @@ import { allMyNotifications, fetchNotification } from '../../Store/notificationS
         <h1  className=" font-bold text-2xl px-4 md:mx-20">Notifications.</h1>
 
       {/* notifications render here---------> */}
+
+      
          
         </div>
         </div>
