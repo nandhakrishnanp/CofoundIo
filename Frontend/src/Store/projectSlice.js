@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 const initialState= {
      status:'idle',
      allprojects:[],
-     projects:[],
+     myprojects:[],
      error:null
 }
 
@@ -31,6 +31,23 @@ const createTeam = createAsyncThunk("project createTeam",async({ projectId, titt
         }
 })
 
+const  addJoinRequest = createAsyncThunk("project/joinRequest" , async(projectId)=>{
+  try {
+     
+    const token = localStorage.getItem("token");
+    const response = await axios.post("/project/joinrequest",{projectId}, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) { 
+    return error.message;
+  }
+   
+
+})
 
 
 const projectSLice = createSlice({
@@ -52,9 +69,15 @@ const projectSLice = createSlice({
          builder.addCase (createTeam.rejected,(state,action)=>{
              toast.error(action.payload.msg)
          })
+         builder.addCase(addJoinRequest.fulfilled,(state,action)=>{
+          toast.success(action.payload.msg) 
+         })
+         builder.addCase (addJoinRequest.rejected,(state,action)=>{
+          toast.error(action.payload.msg)
+      })
     }
 })
 
-export {fetchAllTeam ,createTeam}
+export {fetchAllTeam ,createTeam , addJoinRequest}
 export const allTeams = (state)=> state.projects.allprojects
 export  default projectSLice.reducer

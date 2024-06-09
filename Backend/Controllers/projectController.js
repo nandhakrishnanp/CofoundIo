@@ -3,7 +3,7 @@ const projectModel = require("../Model/projectModel");
 const userModel = require("../Model/userModel");
 
 const getAllTeams = async (req, res) => {
-  const projects = await projectModel.find().sort({ createdOn: -1 });
+  const projects = await projectModel.find().sort({ createdOn: -1 }).populate('createdby', 'name profileUrl');
   res.json({ projects });
 };
 
@@ -94,16 +94,17 @@ const addJoinRequest = async (req, res) => {
     const project = await projectModel.findOne({ projectId });
     console.log(projectId);
     if (!project) {
-      return res.status(404).json({ msg: "Project not found" });
+      return res.json({ msg: "Project not found" }).status(404);
     }
 
-    if (project.members.includes(userId)) {
-      return res.status(400).json({ msg: "You are already a member" });
+
+    if (project.members.includes(userId) || project.createdby == userId) {
+      return res.json({ msg: "You are already a member" }).status(400);
     }
     const isRequest = await notificationModel.find({ reqUserId: userId });
 
     if(isRequest.length>0){
-      return res.status(400).json({ msg: "You Already Requested" });
+      return res.json({ msg: "You Already Requested" }).status(400);
     }
     const newNotification = await new notificationModel({
       userId: project.createdby,
