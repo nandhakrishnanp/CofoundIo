@@ -78,7 +78,7 @@ const authSlice = createSlice({
           state.status = "fullfilled";
           state.isLogin = true;
           state.error = null;
-          toast.success("login succesfull");
+          toast.success("login successful");
           state.token = data.token;
           localStorage.setItem("token", data.token);
         } else {
