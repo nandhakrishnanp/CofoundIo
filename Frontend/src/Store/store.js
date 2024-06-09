@@ -7,6 +7,7 @@ import authSliceReducer from './AuthSlice';
 import userSliceReducer from './userSlice';
 import postSlice from './postSlice';
 import projectSlice from './projectSlice';
+import notificationSlice from './notificationSlice';
 
 const persistConfig = {
   key: 'root',
@@ -18,7 +19,8 @@ const rootReducer = combineReducers({
   auth: authSliceReducer,
   user: userSliceReducer,
   posts: postSlice,
-  projects:projectSlice
+  projects:projectSlice,
+  notification :notificationSlice
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -71,10 +71,12 @@ const Navbar = () => {
             <img src={team} alt="" width={30} />
           </div>
           </Link>
-         
-          <div className=" cursor-pointer px-2 hover:scale-105  flex flex-col items-center">
+           <Link  to="/notifications">
+           <div className=" cursor-pointer px-2 hover:scale-105  flex flex-col items-center">
             <img src={bell} alt="notification icon" width={30} />
           </div> 
+           </Link>
+         
           {profileImg ? (
             <Link to="/profile">
               <div className=" max-md:hidden cursor-pointer hover:scale-105 flex flex-col items-center">
