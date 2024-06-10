@@ -58,7 +58,7 @@ function Chat() {
     return (
         <>
             <Navbar />
-            <div className="sticky max-md:fixed max-md:left-0 max-md:bottom-11 w-full md:top-0 md:left-0  z-10">
+            <div className="fixed left-0 md:bottom-0 sm:bottom-11 w-full z-10">
                 <div className="">
                     {messages.map((message, index) => (
                         <div key={index} className="message">
