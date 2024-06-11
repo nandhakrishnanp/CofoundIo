@@ -6,17 +6,11 @@ function ChatNav() {
     const [teamName, setTeamName] = useState('Team Name');
     const [teamMembers, setTeamMembers] = useState(['User1', 'User2', 'User3']);
 
-    useEffect(() => {
-        // Fetch the team name and members from the server
-        setTeamName('Team Name');
-        setTeamMembers(['User1', 'User2', 'User3']);
-    }, []);
 
     return (
-        <div className="flex sticky top-0 justify-between w-full items-center z-[20] bg-primary text-white p-4">
+        <div className="flex sticky justify-between h-full rounded-xl items-center z-[20] bg-primary text-white">
             <div>
-                <h1 className="text-2xl font-bold">{teamName}</h1>
-                <p className="text-sm">{teamMembers.join(', ')}</p>
+                <h1 className="text-2xl m-3 font-bold">{teamName}</h1>
             </div>
         </div>
     );
@@ -144,7 +138,7 @@ function Chat() {
                         </div>
                     ))}
                 </div>
-                <div className="flex justify-evenly bottom-1 sticky w-full">
+                <div className="flex justify-evenly bottom-1 fixed w-full">
                     <input
                         className="w-3/4 border rounded-xl border-gray-300 py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         type="text"
