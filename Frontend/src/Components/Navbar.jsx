@@ -29,7 +29,7 @@ const Navbar = () => {
     
   }
   return (
-    <div className="  sticky max-md:fixed max-md:left-0 max-md:bottom-0 w-full md:top-0 md:left-0  z-10">
+    <div className="sticky  max-md:left-0 max-md:bottom-0 w-full md:top-0 md:left-0  z-10">
       <div className="flex items-center    px-7    bg-slate-50 py-2">
         <div className="max-md:fixed    max-md:w-full max-md:flex max-md:left-0 max-md:px-3 max-md:py-2 max-md:bg-white max- max-md:top-0">
           <h1 className="text-2xl  max-md:flex-1  max-sm:text-lg font-poppins  text-primary font-bold ">
