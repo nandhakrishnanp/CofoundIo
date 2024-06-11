@@ -2,6 +2,27 @@ import Navbar from "../Navbar";
 import React, { useEffect, useState } from 'react';
 
 
+function ChatNav() {
+    const [teamName, setTeamName] = useState('Team Name');
+    const [teamMembers, setTeamMembers] = useState(['User1', 'User2', 'User3']);
+
+    useEffect(() => {
+        // Fetch the team name and members from the server
+        setTeamName('Team Name');
+        setTeamMembers(['User1', 'User2', 'User3']);
+    }, []);
+
+    return (
+        <div className="flex sticky top-0 justify-between w-full items-center z-[20] bg-primary text-white p-4">
+            <div>
+                <h1 className="text-2xl font-bold">{teamName}</h1>
+                <p className="text-sm">{teamMembers.join(', ')}</p>
+            </div>
+        </div>
+    );
+
+}
+
 {// // Import the required dependencies
 // import io from 'socket.io';
 
@@ -103,13 +124,13 @@ function Chat() {
     }
 
     return (
-        <>
-            <Navbar />
-            <div className="relative left-0 md:bottom-0 bottom-10 w-full md:text-ellipsis">
-                <div className="overflow-y-scroll">
+        <div className="h-full w-full">
+        <ChatNav />
+            <div className=" z-6">
+                <div className="overflow-y-scroll snap-y snap-end snap-mandatory">
 
                     {messages.map((message, index) => (
-                        <div key={index} className={`flex m-3 ${message.sender === 'user1' ? 'justify-end' : 'justify-start'}`}>
+                        <div key={index} className={`flex z-2 m-3 ${message.sender === 'user1' ? 'justify-end' : 'justify-start'}`}>
                             {message.sender !== 'user1' &&  (
                                 <img
                                     src={`https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?cs=srgb&dl=pexels-souvenirpixels-417074.jpg&fm=jpg`} // Replace with the actual profile picture URL
@@ -123,7 +144,7 @@ function Chat() {
                         </div>
                     ))}
                 </div>
-                <div className="w-full flex sticky bottom-1 justify-evenly">
+                <div className="flex justify-evenly bottom-1 sticky w-full">
                     <input
                         className="w-3/4 border rounded-xl border-gray-300 py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         type="text"
@@ -135,7 +156,7 @@ function Chat() {
                     <button className="bg-primary w-1/5 text-white font-bold py-2 px-4 rounded-lg" onClick={handleSendMessage}>Send</button>
                 </div>
             </div>
-        </>
+            </div>
     );
 }
 
