@@ -101,16 +101,17 @@ const addJoinRequest = async (req, res) => {
     if (project.members.includes(userId) || project.createdby == userId) {
       return res.json({ msg: "You are already a member" }).status(400);
     }
-    const isRequest = await notificationModel.find({ reqUserId: userId });
-
-    if(isRequest.length>0){
+    const isRequest = await notificationModel.findOne({ reqUserId: userId });
+   
+    if(isRequest && isRequest.projectId == projectId){
       return res.json({ msg: "You Already Requested" }).status(400);
     }
     const newNotification = await new notificationModel({
       userId: project.createdby,
       projectId: project.projectId,
       reqUserId: userId,
-      content: `${userDetail.name} wants to join Your team`,
+      content: `${userDetail.name} wants to join Your team $
+      ${project.tittle}`,
       notificatioType: "USERJOINREQUEST",
     });
 
@@ -135,31 +136,38 @@ const getMyNotification = async (req,res)=>{
 }
 // notification need to shortout the currect notificaton 
 
-const acceptJoinRequest = async(req,res)=>{
+const acceptJoinRequest = async (req, res) => {
   try {
     const userId = req.user.userId;
-    const {nId} = req.body;
-    const notification = await notificationModel.findOne({nId:nId})
+    const { nId } = req.body;
 
-    const project = await projectModel.findOne({projectId: notification.projectId });
-  
-    if (!project) {
-      return res.status(404).json({ msg: "Project not found" });
+    const notification = await notificationModel.findOne({ nId: nId });
+
+    if (!notification) {
+      return res.json({ msg: "Notification not found" }).status(403);
     }
-  
-    project.members.push(notification.reqUserId)
-  
+
+    const project = await projectModel.findOne({ projectId: notification.projectId });
+
+    if (!project) {
+      return res.json({ msg: "Project not found" }).status(403);
+    }
+
+    if (project.createdby != userId) {
+      return res.json({ msg: "You are not the owner of the project" }).status(403);
+    }
+
+    project.members.push(notification.reqUserId);
     await project.save();
-    
-    const deleteNotification = await notificationModel.deleteOne({projectId: notification.projectId })
-    return res.json({msg:"Added To the Team"})
+
+    await notificationModel.deleteOne({ nId: nId });
+
+    return res.json({ msg: "Added to the Team" });
   } catch (error) {
-    return res.json({msg:error.msg})
+    return res.json({ msg: "Server Error", error: error.message }).status(500);
   }
- 
+};
 
-
-}
 
 
 module.exports = {
