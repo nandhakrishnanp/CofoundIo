@@ -137,7 +137,10 @@ function Chat() {
 
                     {messages.map((message, index) => (
                         <div key={index} className={`flex z-2 m-3 ${message.sender === userName ? 'justify-end' : 'justify-start'}`}>
+                            
                             {message.sender !== userName && (
+                                // Displays the name of the messager
+                                
                                 <img
                                     src={`https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?cs=srgb&dl=pexels-souvenirpixels-417074.jpg&fm=jpg`} // Replace with the actual profile picture URL
                                     alt={`Profile Picture of ${message.sender}`}
@@ -145,6 +148,7 @@ function Chat() {
                                 />
                             )}
                             <div className={`p-2 rounded-xl mx-2 ${message.sender === userName ? 'bg-primary text-white' : ' bg-red-500'}`}>
+                            {message.sender !== userName && (<div className="text-sm">{message.sender}</div>)}
                                 {message.text}
                             </div>
                         </div>
