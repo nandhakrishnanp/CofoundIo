@@ -142,7 +142,7 @@ function Chat() {
                                 // Displays the name of the messager
                                 
                                 <img
-                                    src={`https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?cs=srgb&dl=pexels-souvenirpixels-417074.jpg&fm=jpg`} // Replace with the actual profile picture URL
+                                    src={message} // Replace with the actual profile picture URL
                                     alt={`Profile Picture of ${message.sender}`}
                                     className="w-8 h-8 rounded-full"
                                 />
