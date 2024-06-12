@@ -17,7 +17,7 @@ const projectSchemea = mongoose.Schema({
      },
      theme:{
        type:String,
-       required:true
+      
      },
      createdby:{
         type: mongoose.Schema.Types.ObjectId,
