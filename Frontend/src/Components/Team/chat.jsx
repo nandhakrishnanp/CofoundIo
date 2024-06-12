@@ -1,16 +1,22 @@
-import Navbar from "../Navbar";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'; 
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useParams } from 'react-router-dom';
+import { IoIosArrowRoundBack } from "react-icons/io";
+import {allTeams} from "../../Store/projectSlice";
+import { UserData, fetchUserDataByID, profileUser } from "../../Store/userSlice";
 
 
-function ChatNav() {
+function ChatNav(props) {
     const [teamName, setTeamName] = useState('Team Name');
     const [teamMembers, setTeamMembers] = useState(['User1', 'User2', 'User3']);
 
 
     return (
-        <div className="flex sticky justify-between h-full rounded-xl items-center z-[20] bg-primary text-white">
-            <div>
-                <h1 className="text-2xl m-3 font-bold">{teamName}</h1>
+        <div className="flex sticky justify-start  rounded-xl items-center z-[20] bg-primary text-white">
+            <Link to={'/teams'}><IoIosArrowRoundBack className=" text-4xl" /></Link>
+            <div className="w-3/4">
+                <h1 className="text-2xl m-3 font-bold">{props.teamName}</h1>
+
             </div>
         </div>
     );
@@ -18,47 +24,52 @@ function ChatNav() {
 }
 
 {// // Import the required dependencies
-// import io from 'socket.io';
+    // import io from 'socket.io';
 
-// // Define the server URL
-// const serverUrl = 'http://127.0.0.1:4373';
+    // // Define the server URL
+    // const serverUrl = 'http://127.0.0.1:4373';
 
-// // Define the UserIds of the team members
-// const userIds = ['user1'];
+    // // Define the UserIds of the team members
+    // const userIds = ['user1'];
 
-// // Create a Socket.IO client for each team member
-// const socketClients = userIds.map(userId => {
-//     // Connect to the server
-//     const socket = io(serverUrl);
+    // // Create a Socket.IO client for each team member
+    // const socketClients = userIds.map(userId => {
+    //     // Connect to the server
+    //     const socket = io(serverUrl);
 
-//     // Emit an event to join the team chat room using the UserId
-//     socket.emit('join', { userId });
+    //     // Emit an event to join the team chat room using the UserId
+    //     socket.emit('join', { userId });
 
-//     // Handle incoming messages
-//     socket.on('message', message => {
-//         console.log(`Received message from ${message.sender}: ${message.text}`);
-//     });
+    //     // Handle incoming messages
+    //     socket.on('message', message => {
+    //         console.log(`Received message from ${message.sender}: ${message.text}`);
+    //     });
 
-//     // Return the socket client
-//     return socket;
-// });
+    //     // Return the socket client
+    //     return socket;
+    // });
 
-// // Send a message to the team chat room
-// function sendMessage(userId, text) {
-//     const socket = socketClients.find(client => client.id === userId);
-//     if (socket) {
-//         socket.emit('message', { sender: userId, text });
-//     }
-// }
+    // // Send a message to the team chat room
+    // function sendMessage(userId, text) {
+    //     const socket = socketClients.find(client => client.id === userId);
+    //     if (socket) {
+    //         socket.emit('message', { sender: userId, text });
+    //     }
+    // }
 
-// // Usage example
-// sendMessage('user1', 'Hello team!');
+    // // Usage example
+    // sendMessage('user1', 'Hello team!');
 }
-
 function Chat() {
     const [message, setMessage] = useState('');
+    const userDetails = useSelector(UserData);
+    const teamNames = useSelector(allTeams);
+    let teamName = ''
+    const {projectId} = useParams();
+    console.log(projectId);
+    const userName = userDetails.userDetails.userName;
     const [messages, setMessages] = useState([{
-        sender: 'user1',
+        sender: 'StarOne',
         text: 'Hello team!',
     },
     {
@@ -66,7 +77,7 @@ function Chat() {
         text: 'Hi user1!',
     },
     {
-        sender: 'user1',
+        sender: 'StarOne',
         text: 'How are you?',
     },
     {
@@ -74,7 +85,7 @@ function Chat() {
         text: 'I am fine, thank you!',
     },
     {
-        sender: 'user1',
+        sender: 'StarOne',
         text: 'Great!',
     },
     {
@@ -82,20 +93,23 @@ function Chat() {
         text: 'How about you?',
     },
     {
-        sender: 'user1',
+        sender: 'StarOne',
         text: 'I am doing well too!',
     },
 
 
-]);
+    ]);
+
+    console.log(teamNames);
+    for (let i = 0; i < teamNames.length; i++) {
+        if (teamNames[i].projectId === projectId) {
+            teamName = teamNames[i].tittle;
+            break;
+        }
+    }
 
     function handleInputChange(event) {
-
         setMessage(event.target.value);
-        console.log(event.target.value);
-        if (event.key === 'Enter') {
-            handleSendMessage();
-        }
     }
 
 
@@ -110,35 +124,33 @@ function Chat() {
 
 
     function handleSendMessage() {
-        // Send the message using the sendMessage function
-        setMessages([...messages, { sender: 'user1', text: message }]);
-        //sendMessage('user1', message);
-        // Clear the input field
+        setMessages([...messages, { sender: userName, text: message }]);
+        console.log(userName);
         setMessage('');
     }
 
     return (
         <div className="h-full w-full">
-        <ChatNav />
+            <ChatNav teamName={teamName}/>
             <div className=" z-6">
                 <div className="overflow-y-scroll snap-y snap-end snap-mandatory">
 
                     {messages.map((message, index) => (
-                        <div key={index} className={`flex z-2 m-3 ${message.sender === 'user1' ? 'justify-end' : 'justify-start'}`}>
-                            {message.sender !== 'user1' &&  (
+                        <div key={index} className={`flex z-2 m-3 ${message.sender === userName ? 'justify-end' : 'justify-start'}`}>
+                            {message.sender !== userName && (
                                 <img
                                     src={`https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?cs=srgb&dl=pexels-souvenirpixels-417074.jpg&fm=jpg`} // Replace with the actual profile picture URL
                                     alt={`Profile Picture of ${message.sender}`}
                                     className="w-8 h-8 rounded-full"
                                 />
                             )}
-                            <div className={`p-2 rounded-xl mx-2 ${message.sender === 'user1' ? 'bg-primary text-white' : ' bg-red-500'}`}>
+                            <div className={`p-2 rounded-xl mx-2 ${message.sender === userName ? 'bg-primary text-white' : ' bg-red-500'}`}>
                                 {message.text}
                             </div>
                         </div>
                     ))}
                 </div>
-                <div className="flex justify-evenly bottom-1 fixed w-full">
+                <div className="flex justify-evenly bottom-2 fixed w-full">
                     <input
                         className="w-3/4 border rounded-xl border-gray-300 py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         type="text"
@@ -150,7 +162,7 @@ function Chat() {
                     <button className="bg-primary w-1/5 text-white font-bold py-2 px-4 rounded-lg" onClick={handleSendMessage}>Send</button>
                 </div>
             </div>
-            </div>
+        </div>
     );
 }
 
