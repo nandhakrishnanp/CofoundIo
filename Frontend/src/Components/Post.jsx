@@ -17,7 +17,7 @@ const Post = ({ posts }) => {
   let nav = useNavigate();
   const dispatch = useDispatch();
   const [isopen, setIsOpen] = useState(false);
-
+const[isliked,setIsLiked]=useState(false)
   const [comment, setComment] = useState(""); // to Store comment input
   const [isCommentopen, setIsCommentOpen] = useState(false); // openclose comment section
   const allcomments = useSelector(fetchCommentsByPost); // all comments
@@ -35,21 +35,25 @@ const Post = ({ posts }) => {
     }, 2000);
   };
 
-  //NOTWORKING_PROperly || changes the like button state if the user has already liked the post or not
-  const isliked = (likeArr) => {
+  //fixed|| changes the like button state if the user has already liked the post or not
+  const islikedCheck = (likeArr) => {
     if (likeArr.length > 0) {
-      let isLiked = likeArr.find((like) => {
+      let isLike = likeArr.filter((like) => {
         return like == userdetail.userDetails._id;
       });
-      if (isLiked) {
-        return true;
+      if (isLike) {
+        setIsLiked(true);
       } else {
-        return false;
+       setIsLiked(false);
       }
     } else {
-      return false;
+      setIsLiked(false);
     }
   };
+
+  useEffect(() => {
+    islikedCheck(posts.likes);
+  }, [posts.likes]);
 // post the comments
   const sendComment = () => {
     if (comment) {
@@ -106,12 +110,14 @@ const Post = ({ posts }) => {
         />
       ) : null}
       <div className="flex mt-2 gap-[6px] items-center justify-start">
-        {!isliked(posts.likes) ? (
+        {!isliked ? (
           <img
             onClick={() => {
               dispatch(likePost(posts.post_id));
               setTimeout(() => {
+                
                 dispatch(fetchPosts());
+              
               }, 1000);
             }}
             src={like}
@@ -123,8 +129,12 @@ const Post = ({ posts }) => {
             onClick={() => {
               dispatch(likePost(posts.post_id));
               setTimeout(() => {
+               
                 dispatch(fetchPosts());
+                 
               }, 1000);
+              
+
             }}
             src={likeclick}
             className=" cursor-pointer w-7 pt-2"
