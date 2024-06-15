@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { AuthActions } from "../Store/AuthSlice";
 import Addpost from "./Addpost";
+import { resetState } from "../Store/postSlice";
+import { LuLogOut } from "react-icons/lu";
 
 
 const Navbar = () => {
@@ -60,7 +62,11 @@ const Navbar = () => {
           )}
         </div>
         <div className="flex md:flex-1  max-md:w-full max-md:justify-between max-md:pl-16  items-center px-1 justify-end gap-3">
-           <button  onClick={()=> handleLogOut()} className=" max-md:hidden bg-red-200 p-2">Logout</button>
+          {/* testingpurpose */}
+        <button onClick={()=>{
+        dispatch(resetState())
+       }} className=" bg-slate-600 max-md:hidden px-4 rounded-full text-white" >reset Redux state</button>
+           <button  onClick={()=> handleLogOut()} className=" max-md:hidden rounded-xl bg-red-200  p-2"> <LuLogOut/></button>
           <Link to="/home">
             <div className=" max-md:flex-1 cursor-pointer  hover:scale-105 transition-all  duration-200 px-2 max-lg:px-1 flex flex-col items-center">
               <img src={home} alt="" width={30} className=" max-lg:w-[25px]" />

@@ -19,8 +19,6 @@ const Userprofile = () => {
   const dispatch = useDispatch();
   const userdetail = useSelector(profileUser);
   const userPost = useSelector(fetchAllPostByUser);
-
-
   useEffect(() => {
     if(UserId == myUserId){
       nav("/profile")

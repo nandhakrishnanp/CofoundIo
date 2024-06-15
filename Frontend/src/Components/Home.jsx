@@ -7,6 +7,8 @@ import { UserData, fetchUserData, isUserData } from "../Store/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Feed from "./Feed";
+import { resetState } from "../Store/postSlice";
+
 
 const Home = () => {
   const dispactch = useDispatch(UserData);
@@ -15,6 +17,7 @@ const Home = () => {
   const isuser = useSelector(isUserData);
 
   useEffect(() => {
+
     if (authToken) {
       dispactch(fetchUserData(authToken));
     } else {
@@ -25,6 +28,7 @@ const Home = () => {
   return (
     <div className="w-100 min-h-screen   bg-Secondary">
       <Navbar />
+      
       <Feed />
     </div>
   );

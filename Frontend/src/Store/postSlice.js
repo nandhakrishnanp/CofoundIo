@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 const initialState = {
   posts: [],
   profilePost:[],
+  comments:[],
   loading: false,
   error: null,
 };
@@ -55,9 +56,64 @@ const uploadPost = createAsyncThunk("/posts/upload", async ({ post_id, content, 
   }
 });
 
+// like and dislike using same function
+const likePost = createAsyncThunk("/posts/like", async ( post_id ) => {
+ 
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.post("/posts/like", { post_id }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return error.message;
+  }
+});
+
+
+// function to add comments
+
+const postComments =createAsyncThunk("/posts/comment",async({ post_id, content})=>{
+   try {
+    const token = localStorage.getItem("token");
+    const response = await axios.post("/posts/comment", { post_id, content }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+    
+   } catch (error) {
+    return error.message;
+    
+   }
+}
+)
+
+// function to fetch comments byid
+const fetchComments = createAsyncThunk("/posts/fetchComments",async(post_id)=>{
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.get(`/posts/comments/${post_id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return error.message;
+  }
+})
+
 const postSlice = createSlice({
   name: "posts",
   initialState,
+  reducers:{
+    resetState: (state) => initialState,
+
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchPosts.pending, (state) => {
       state.loading = true;
@@ -87,12 +143,31 @@ const postSlice = createSlice({
      const data = action.payload
      state.profilePost =data
    })
+    builder.addCase(fetchPostsByID.rejected,(state,action)=>{
+      toast.error(action.payload.msg)
+    })
+    builder.addCase(likePost.fulfilled,(state,action)=>{
+      toast.success(action.payload.msg)
+    })
+    builder.addCase(likePost.rejected,(state,action)=>{
+      toast.error(action.payload.msg)
+    })
+    builder.addCase(postComments.fulfilled,(state,action)=>{
+      toast.success(action.payload.msg)
+    })
+    builder.addCase(postComments.rejected,(state,action)=>{
+      toast.error(action.payload.msg)
+    })
+    builder.addCase(fetchComments.fulfilled,(state,action)=>{
+      state.comments = action.payload.comments
+    })
 
   },
 });
 
-export { fetchPosts ,uploadPost ,fetchPostsByID };
+export { fetchPosts ,uploadPost ,fetchPostsByID , likePost , fetchComments , postComments};
 export const fetchAllPosts = (state) => state.posts.posts;
 export const fetchAllPostByUser = (state)=>state.posts.profilePost;
-
+export const fetchCommentsByPost = (state)=>state.posts.comments;
+export const{ resetState} = postSlice.actions
 export default postSlice.reducer;
