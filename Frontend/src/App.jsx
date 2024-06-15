@@ -14,6 +14,8 @@ import Aos from "aos";
 import "aos/dist/aos.css";
 import Notification from "./Components/notification/Notification";
 import Chat from "./Components/Team/chat";
+import Myteams from "./Components/Team/Myteams";
+
 Aos.init({
  once:true
 })
@@ -42,7 +44,8 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
         <Route path="/profile/:UserId" element={<Userprofile/>} />
-          <Route path="/teams" element={<Teams/>}/>
+          <Route path="/teams" element={<Myteams/>}/>
+          <Route path="/exploreTeams" element={<Teams/>}/>
           <Route path="/teams/:projectId" element={<Chat/>} />
           <Route path="/notifications" element={<Notification/>}/>
         </Route>

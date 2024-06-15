@@ -22,6 +22,22 @@ const fetchNotification = createAsyncThunk("project/getmynotification", async()=
   
   
   })
+
+  const rejectJoinRequest = createAsyncThunk("project/rejectJoinRequest", async(nId)=>{
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.post("project/rejectJoinRequest",{nId},{ headers:{
+       Authorization: `Bearer ${token}`,
+      }})
+  
+      return response.data;    
+    } catch (error) {
+        return error.msg;
+    }
+  
+  
+  }
+    )
   
 const notificationSlice = createSlice({
     name:"notification",
@@ -39,6 +55,11 @@ const notificationSlice = createSlice({
         builder.addCase(fetchNotification.rejected , (state,action)=>{
              state.isnotification = false
          })
+         builder.addCase(rejectJoinRequest.fulfilled,(state , action)=>{
+            const payload = action.payload
+            toast.success(payload.msg)
+            
+         })
     }
 
 })
@@ -46,4 +67,4 @@ const notificationSlice = createSlice({
 
 export const allMyNotifications = (state)=> state.notification.MyNotification
 export default notificationSlice.reducer
-export { fetchNotification}
+export { fetchNotification, rejectJoinRequest} 

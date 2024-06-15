@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../Navbar";
 import { useDispatch, useSelector } from "react-redux";
-import { addJoinRequest, allTeams, fetchAllTeam } from "../../Store/projectSlice";
+import { addJoinRequest, allTeams, fetchAllTeam, fetchMyTeam } from "../../Store/projectSlice";
 import requestSvg from "../../assets/request.svg"
 import addIcon from "../../assets/addproject.svg"
 import Createteam from "./Createteam";
@@ -15,6 +15,7 @@ const Teams = () => {
   const DicoverTeam = useSelector(allTeams);
   useEffect(() => {
     dispatch(fetchAllTeam());
+    
     console.log(DicoverTeam);
   }, []);
 

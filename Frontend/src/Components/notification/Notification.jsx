@@ -1,9 +1,10 @@
  import React, { useEffect } from 'react'
 import Navbar from '../Navbar'
 import { useDispatch, useSelector } from "react-redux";
-import { allMyNotifications, fetchNotification } from '../../Store/notificationSlice';
+import { allMyNotifications, fetchNotification, rejectJoinRequest } from '../../Store/notificationSlice';
 import { acceptJoinRequest } from '../../Store/projectSlice';
  import notificationIcon from "../../assets/notify.webp"
+ 
  const Notification = () => {
     const dispatch = useDispatch()
     const allNotification = useSelector(allMyNotifications)
@@ -31,8 +32,16 @@ import { acceptJoinRequest } from '../../Store/projectSlice';
 
                     <button onClick={()=>{
                       dispatch(acceptJoinRequest(notification.nId))
+                      setTimeout(() => {
+                        dispatch(fetchNotification())
+                      }, 1000);
                     }} className="bg-Primary hover:scale-105 transition-all duration-150 text-black px-4 py-2 rounded-md hover:text-primary">Accept</button>
-                    <button className="bg-Primary hover:scale-105 transition-all duration-150 text-black px-4 py-2 hover:text-primary rounded-md">Decline</button>
+                    <button onClick={()=>{
+                      dispatch(rejectJoinRequest(notification.nId))
+                      setTimeout(() => {
+                        dispatch(fetchNotification())
+                      }, 1000);
+                    }}  className="bg-Primary hover:scale-105 transition-all duration-150 text-black px-4 py-2 hover:text-primary rounded-md">Decline</button>
                     </div>
                 </div>
             )

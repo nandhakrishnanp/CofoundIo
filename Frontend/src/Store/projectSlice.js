@@ -14,7 +14,20 @@ const fetchAllTeam = createAsyncThunk("project/fetchproject",async()=>{
       const response = await axios.get("project/discover")
       return response.data
 })
+const fetchMyTeam = createAsyncThunk("project/fetchMyproject",async()=>{
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.get("project/myProject",{ headers:{
+     Authorization: `Bearer ${token}`,
+    }})
 
+    return response.data
+  } catch (error) {
+      return error.message
+  }
+ 
+
+})
 const createTeam = createAsyncThunk("project createTeam",async({ projectId, tittle,theme , discription  })=>{
      try {
      
@@ -99,9 +112,14 @@ const projectSLice = createSlice({
         toast.error(action.payload.msg)
 
        })
+       builder.addCase(fetchMyTeam.fulfilled, (state,action)=>{
+          state.myprojects = action.payload.projects
+          console.log(action.payload);
+       })
     }
 })
 
-export {fetchAllTeam ,createTeam , addJoinRequest ,acceptJoinRequest }
+export {fetchAllTeam ,createTeam , addJoinRequest ,acceptJoinRequest,fetchMyTeam }
 export const allTeams = (state)=> state.projects.allprojects
+export const MyTeams =(state)=>state.projects.myprojects
 export  default projectSLice.reducer

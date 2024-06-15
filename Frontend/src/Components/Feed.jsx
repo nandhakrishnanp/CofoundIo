@@ -22,6 +22,7 @@ const Feed = () => {
       <div className=" min-h-screen  max-md:mb-10   overflow-y-scroll    max-lg:w-full w-3/6 ">
         <Addpost />
         <ListPosts posts={posts} />
+        
       </div>
     </div>
   );

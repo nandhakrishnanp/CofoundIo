@@ -110,7 +110,7 @@ const addJoinRequest = async (req, res) => {
       userId: project.createdby,
       projectId: project.projectId,
       reqUserId: userId,
-      content: `${userDetail.name} wants to join Your team $
+      content: `${userDetail.name} wants to join Your team 
       ${project.tittle}`,
       notificatioType: "USERJOINREQUEST",
     });
@@ -169,6 +169,28 @@ const acceptJoinRequest = async (req, res) => {
 };
 
 
+const rejectJoinRequest = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const { nId } = req.body;
+console.log(nId);
+    const notification = await notificationModel.findOne({ nId: nId });
+
+    if (!notification) {
+      return res.json({ msg: "Notification not found" }).status(403);
+    }
+
+    
+
+    await notificationModel.deleteOne({ nId: nId });
+
+    return res.json({ msg: "Rejected" });
+  } catch (error) {
+    return res.json({ msg: "Server Error", error: error.message }).status(500);
+  }
+}
+
+
 
 module.exports = {
   getAllTeams,
@@ -178,5 +200,6 @@ module.exports = {
   deleteProject,
   addJoinRequest,
   getMyNotification,
-  acceptJoinRequest
+  acceptJoinRequest,
+  rejectJoinRequest
 };
