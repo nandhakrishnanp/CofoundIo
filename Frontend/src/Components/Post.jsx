@@ -38,9 +38,8 @@ const[isliked,setIsLiked]=useState(false)
   //fixed|| changes the like button state if the user has already liked the post or not
   const islikedCheck = (likeArr) => {
     if (likeArr.length > 0) {
-      let isLike = likeArr.filter((like) => {
-        return like == userdetail.userDetails._id;
-      });
+      let isLike = likeArr.filter((like) => like == userdetail.userDetails._id
+      );
       if (isLike) {
         setIsLiked(true);
       } else {

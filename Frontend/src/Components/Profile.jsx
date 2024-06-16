@@ -153,7 +153,7 @@ const Profile = () => {
             {UserPost.map((post) => (
               <div
                 key={post.name}
-                className="bg-white  rounded-lg shadow-xl p-4 my-3"
+                className="bg-white  rounded-lg  p-4 my-3"
               >
                 <Post posts={post} />
               </div>
