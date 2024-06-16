@@ -11,6 +11,8 @@ const Myteams = () => {
   useEffect(() => {
     if (MyAllTeams.length == 0) {
       nav("/exploreTeams");
+    }else{
+      console.log(MyAllTeams,"hello");
     }
   }, []);
 
