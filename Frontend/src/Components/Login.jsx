@@ -13,11 +13,14 @@ import {
 import { toast } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
+import { FaEye, FaEyeDropper, FaEyeSlash } from "react-icons/fa6";
+import { LuEyeOff } from "react-icons/lu";
 const Login = () => {
   const [isLogin, setisLogin] = useState(true);
   const [userName, setUserName] = useState("");
   const [fullName, setFullName] = useState("");
   const [password, setPasword] = useState("");
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [formErrors, setFormErrors] = useState({
     username: "",
     password: "",
@@ -98,7 +101,13 @@ const Login = () => {
       setEmail("");
     }
   }, [isRegistrationSuccess]);
-
+  
+ const handlePasswordVisibility = () => {
+    setIsPasswordVisible(!isPasswordVisible)
+    setTimeout(() => {
+      setIsPasswordVisible(false)
+    }, 2000);
+ }
   return (
     <div>
       <div className="flex relative items-center justify-center  h-screen w-full ">
@@ -129,17 +138,22 @@ const Login = () => {
                 placeholder="Enter Your Username"
                 id="username"
               />
+              <div  className=" flex justify-center gap-2 w-[105%]  items-center">
 
               <input
                 value={password}
                 onChange={(e) => setPasword(e.target.value)}
                 required
-                type="password"
-                className="h-6 border-0 mt-3 p-4  bg-primary/5  placeholder:text-black focus:ring-1 focus:ring-primary  font-medium  rounded-md  outline-none "
+                type={`${isPasswordVisible ? "text" : "password"}`}
+                className="h-6 border-0 mt-3 p-4 w-full  bg-primary/5  placeholder:text-black focus:ring-1 focus:ring-primary  font-medium  rounded-md  outline-none "
                 name="password"
                 placeholder="Enter Your Password"
                 id="password"
               />
+             
+              
+              {isPasswordVisible? <FaEye onClick={()=>handlePasswordVisibility()} className="mt-3 text-xl cursor-pointer"/> :  <FaEyeSlash onClick={()=>handlePasswordVisibility()} className=" mt-3 cursor-pointer text-xl"/>}
+              </div>
 
               {!isLogin ? (
                 <>

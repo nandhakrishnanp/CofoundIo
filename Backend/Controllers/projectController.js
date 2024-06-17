@@ -124,6 +124,7 @@ const addJoinRequest = async (req, res) => {
   }
 };
 
+
 const getMyNotification = async (req,res)=>{
   const userId = req.user.userId;
   const notification = await notificationModel.find({userId:userId})
