@@ -30,7 +30,7 @@ const Navbar = () => {
 
   const handleLogOut =()=>{
       dispatch(AuthActions.logout())
-    
+      dispatch(resetState())
   }
   const [showDropdown, setShowDropdown] = useState(false);
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import like from "../assets/like.svg";
 import likeclick from "../assets/likeclick.svg";
+
 import { Link, useNavigate } from "react-router-dom";
 import {
   fetchComments,
@@ -10,19 +11,24 @@ import {
   postComments,
 } from "../Store/postSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { profileUser } from "../Store/userSlice";
+import { UserData, profileUser } from "../Store/userSlice";
 import { BiCommand, BiComment, BiSend } from "react-icons/bi";
 
 const Post = ({ posts }) => {
   let nav = useNavigate();
   const dispatch = useDispatch();
   const [isopen, setIsOpen] = useState(false);
-const[isliked,setIsLiked]=useState(false)
+  const userdetail = useSelector(UserData);
+  const [isliked, setIsLiked] = useState(false);
+useEffect(() => {
+ 
+  setIsLiked(posts.likes.includes(userdetail.userDetails._id));
+ 
+}, [posts.likes, userdetail.userDetails._id]);
   const [comment, setComment] = useState(""); // to Store comment input
   const [isCommentopen, setIsCommentOpen] = useState(false); // openclose comment section
   const allcomments = useSelector(fetchCommentsByPost); // all comments
   const [mypostComment, setMyPostComment] = useState([]); // comments of the post
-  const userdetail = useSelector(profileUser);
   // filter the comments of the post
   const UpdatePostComment = () => {
     const filtered_comment = allcomments.filter(
@@ -30,29 +36,9 @@ const[isliked,setIsLiked]=useState(false)
     );
 
     setMyPostComment(filtered_comment);
-    setTimeout(() => {
-      console.log(mypostComment, "hu");
-    }, 2000);
+
   };
 
-  //fixed|| changes the like button state if the user has already liked the post or not
-  const islikedCheck = (likeArr) => {
-    if (likeArr.length > 0) {
-      let isLike = likeArr.filter((like) => like == userdetail.userDetails._id
-      );
-      if (isLike) {
-        setIsLiked(true);
-      } else {
-       setIsLiked(false);
-      }
-    } else {
-      setIsLiked(false);
-    }
-  };
-
-  useEffect(() => {
-    islikedCheck(posts.likes);
-  }, [posts.likes]);
 // post the comments
   const sendComment = () => {
     if (comment) {
@@ -113,10 +99,11 @@ const[isliked,setIsLiked]=useState(false)
           <img
             onClick={() => {
               dispatch(likePost(posts.post_id));
+             
               setTimeout(() => {
                 
                 dispatch(fetchPosts());
-              
+                
               }, 1000);
             }}
             src={like}
@@ -127,10 +114,11 @@ const[isliked,setIsLiked]=useState(false)
           <img
             onClick={() => {
               dispatch(likePost(posts.post_id));
+            
               setTimeout(() => {
-               
+                
                 dispatch(fetchPosts());
-                 
+                
               }, 1000);
               
 
