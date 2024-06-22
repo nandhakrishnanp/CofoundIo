@@ -46,7 +46,7 @@ function App() {
         <Route path="/profile/:UserId" element={<Userprofile/>} />
           <Route path="/teams" element={<Myteams/>}/>
           <Route path="/exploreTeams" element={<Teams/>}/>
-          <Route path="/teams/:projectId" element={<Chat/>} />
+      
           <Route path="/notifications" element={<Notification/>}/>
         </Route>
         

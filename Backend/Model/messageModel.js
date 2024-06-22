@@ -10,11 +10,11 @@ const meassageShemea = mongoose.Schema({
         ref: 'User', 
         required: true,
       },
-      recipient: {
+       projectId:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User', 
+        ref: 'projectModel',
         required: true,
-      },
+       },  
       content: {
         type: String,
         required: true,
@@ -23,10 +23,10 @@ const meassageShemea = mongoose.Schema({
         type: Date,
         default: Date.now,
       },
-      read: {
-        type: Boolean,
-        default: false,
-      }
+      readby:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+      }]
 })
 
 

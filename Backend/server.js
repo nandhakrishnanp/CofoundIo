@@ -8,7 +8,11 @@ app.use(express.json());
 app.use(cors());
 const mongoose = require("mongoose");
 mongoose.connection.useDb("CoFoundio");
-
+const io = require('socket.io')(3001,{
+  cors:{
+      origin: '*',
+  }
+})
 
 const connectDB = async () => {
   try {
@@ -37,6 +41,15 @@ app.get("/", (req, res) => {
     msg: "Hello server is live",
   });
 });
+
+io.on('connection',(socket)=>{
+  console.log("a user connected");
+  socket.on('message',(data)=>{
+    console.log(data);
+    socket.broadcast.emit('message',data);
+  })
+})
+
 app.listen(process.env.PORT, () => {
   console.log("Server is Runnning on " + process.env.PORT);
 });

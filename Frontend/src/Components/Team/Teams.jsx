@@ -51,7 +51,7 @@ const Teams = () => {
         <h1  className=" font-bold text-2xl px-4 md:mx-20">Explore Teams.</h1>
         <div>
          { DicoverTeam  ? DicoverTeam.map((team)=>(
-          <Link to={`/teams/${team.projectId}`}>
+        
           <div data-aos="fade-left"   className="p-4 font-monsherrat cursor-pointer hover:shadow-xl  bg-white md:mx-20 md:p-9 m-2 rounded-lg">
            
             <h1 className=" capitalize text-primary text-xl font-bold">{team.tittle}</h1>
@@ -67,7 +67,7 @@ const Teams = () => {
                </div>
            
           </div>
-          </Link>
+         
          )):null}
         </div>
       </div>

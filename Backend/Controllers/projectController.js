@@ -101,6 +101,7 @@ const addJoinRequest = async (req, res) => {
     if (project.members.includes(userId) || project.createdby == userId) {
       return res.json({ msg: "You are already a member" }).status(400);
     }
+    
     const isRequest = await notificationModel.findOne({ reqUserId: userId });
    
     if(isRequest && isRequest.projectId == projectId){
@@ -191,7 +192,17 @@ console.log(nId);
   }
 }
 
+const getMembersDetails = async(req,res)=>{
+  try {
+    const {projectId} = req.params;
+    const project = await projectModel.find({projectId}).populate('members','name profileUrl');
+    res.json({project});
 
+  } catch (error) {
+    res.json({msg:error.message}).status(500);
+  }
+
+}
 
 module.exports = {
   getAllTeams,
@@ -202,5 +213,6 @@ module.exports = {
   addJoinRequest,
   getMyNotification,
   acceptJoinRequest,
-  rejectJoinRequest
+  rejectJoinRequest,
+  getMembersDetails
 };

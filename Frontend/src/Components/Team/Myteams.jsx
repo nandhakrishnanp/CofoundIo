@@ -1,12 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { MyTeams } from "../../Store/projectSlice";
 import exploreIcon from "../../assets/explore.svg";
+import Chat from "./chat";
 const Myteams = () => {
   const dispatch = useDispatch();
   let nav = useNavigate();
+  const [currenTeam,setCurrenTeam]=useState(null)
   const MyAllTeams = useSelector(MyTeams);
   useEffect(() => {
     if (MyAllTeams.length == 0) {
@@ -15,14 +17,16 @@ const Myteams = () => {
       console.log(MyAllTeams,"hello");
     }
   }, []);
-
+ const handleTeamChange=(team)=>{
+  setCurrenTeam(team)
+}
   return (
     <>
       <Navbar />
 
-      <div className=" bg-Secondary w-full min-h-screen">
-        <div className=" flex items-center  bg-violet-300 justify-center">
-          <div className="max-md:mt-[50px] bg-white min-h-screen  min-w-[30%] md:max-w-[70%]">
+      <div className=" bg-Secondary w-full min-h-screen max-h-screen ">
+        <div className=" flex  bg-violet-300 justify-center">
+          <div className="max-md:mt-[50px]  bg-white min-h-screen max-h-screen  overflow-y-hidden    w-[30%] ">
             <div className=" flex justify-between  ">
               <h1 className=" font-bold text-2xl px-4   text-primary p-2">
                 My Teams.
@@ -35,22 +39,23 @@ const Myteams = () => {
                 />
               </Link>
             </div>
-            <div className="flex flex-col ">
+            <div className="flex flex-col overflow-y-auto">
               {MyAllTeams.length > 0
                 ? MyAllTeams.map((team) => (
-                    <div className="p-4  border-b-2 border-primary cursor-pointer hover:bg-primary/5  flex  gap-2  items-center    ">
-                        <div  className=" w-10 h-10 bg-slate-400 rounded-full">
-
-                        </div>
-                      <h1 className="capitalize  text-dark-blue text-lg font-bold ">{team.tittle}</h1>
+                    <div onClick={()=>handleTeamChange(team)} className={`p-4 ${currenTeam && team.tittle===currenTeam.tittle?"bg-primary  ":"hover:bg-primary/5"}  transition-all duration-150 cursor-pointer   flex  gap-2  items-center  `}>
+                        <img src={team.profileUrl}  className=" w-10 h-10 bg-slate-400 rounded-full"/>
+              
+                       
+                      <h1 className={`capitalize ${currenTeam && team.tittle===currenTeam.tittle?"text-white":"text-dark-blue"}     text-lg font-bold `}>{team.tittle}</h1>
                     </div>
                   ))
                 : null}
             </div>
           </div>
 
-          <div className="flex-1 flex items-center    justify-center">
-            <h2 className=" font-bold text-2xl">Chat Renders Here </h2>
+          <div className="flex-1   justify-center">
+            {currenTeam ?  <Chat team ={currenTeam} />:null}
+          
           </div>
         </div>
       </div>

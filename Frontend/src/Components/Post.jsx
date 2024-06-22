@@ -29,14 +29,17 @@ useEffect(() => {
   const [isCommentopen, setIsCommentOpen] = useState(false); // openclose comment section
   const allcomments = useSelector(fetchCommentsByPost); // all comments
   const [mypostComment, setMyPostComment] = useState([]); // comments of the post
+  const [isCommentLoading, setIsCommentLoading] = useState(false); // comment loading
   // filter the comments of the post
   const UpdatePostComment = () => {
     const filtered_comment = allcomments.filter(
       (comment) => comment.postId == posts.post_id
     );
-
+   
     setMyPostComment(filtered_comment);
-
+    if( filtered_comment.length==0){
+        setIsCommentLoading(false)
+    }
   };
 
 // post the comments
@@ -81,6 +84,7 @@ useEffect(() => {
             setIsOpen(false);
           } else {
             setIsOpen(true);
+            setIsCommentLoading(true)
           }
         }}
       >
@@ -138,8 +142,12 @@ useEffect(() => {
                 setIsCommentOpen(false);
               } else {
                 setIsCommentOpen(true);
+                setIsCommentLoading(true)
                 dispatch(fetchComments(posts.post_id));
-                UpdatePostComment();
+               setTimeout(() => {
+                
+                 UpdatePostComment();
+               }, 2000);
               }
             }}
             className=" font-monsherrat text-primary cursor-pointer hover:underline"
@@ -167,6 +175,7 @@ useEffect(() => {
               className=" ml-3 hover:cursor-pointer hover:scale-110 transition-all duration-150 text-[35px]"
             />
           </div>
+            
           {mypostComment.length > 0
             ? mypostComment.map((comment) => (
                 <div>
@@ -192,7 +201,7 @@ useEffect(() => {
                   </div>
                 </div>
               ))
-            : null}
+            :   isCommentLoading ? <div className="loader mx-5"></div>: <p className=" mx-4 mt-1">No Comments Yet</p>}
         </div>
       ) : null}
     </div>
