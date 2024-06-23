@@ -43,7 +43,7 @@ const uploadPosts = async (req, res) => {
 };
 const getPosts = async (req, res) => {
   const post = await postsModel.find().sort({"createdAt":-1});
-  console.log(post);
+
   res.json({
     post,
   });
@@ -84,7 +84,7 @@ const likeOrDislke = async (req, res) => {
 const commentOnPost = async (req, res) => {
   const userId = req.user.userId;
   const { post_id, content } = req.body;
-console.log("Comments Added ");
+
 
 
   const newComment =new Comment({

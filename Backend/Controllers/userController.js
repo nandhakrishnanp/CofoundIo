@@ -9,7 +9,7 @@ const otpGenerator = require("otp-generator");
 const userDetailsById = async(req,res)=>{
       const userId = req.params.id;
       const userDetails = await User.findOne({ _id: userId }).select("-password");
-      console.log(userId);
+    
       return res.json({ userDetails:userDetails });
 }
 
@@ -64,7 +64,7 @@ const registerUser = async (req, res) => {
     res.json({ msg: "Registration Failed" }).status(400);
   }
   let alluser = await User.find();
-  console.log(alluser);
+ 
 };
 
 const loginUser = async (req, res) => {
@@ -117,7 +117,7 @@ const GenerateOtp = async (req, res) => {
       });
       if (oldOtp) {
         const expdate = Date.now()+5*60*1000;
-        console.log(expdate);
+        
         await otpModel.updateOne({ email: email }, { otp: otp , createdAt:Date.now(), expiresAt:expdate });
       } else {
         const newOtp = await otpModel.create({
@@ -159,7 +159,7 @@ const verifyOtp = async (req, res) => {
     let cDate = Date.now();
 
     if (otpfromdb.otp == otp) {
-      console.log(cDate);
+    
       console.log("expiry:"+ otpfromdb.expiresAt.getTime());
       if (otpfromdb.expiresAt.getTime() > cDate) {
         let salt = await bcrypt.genSalt(10);

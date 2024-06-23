@@ -73,7 +73,7 @@ const updateBannerurl = async (req, res) => {
 
 const updateAbout = async(req, res) => {
   const { about } = req.body;
-  console.log(about);
+
   const userId = req.user.userId;
   const user = await User.findByIdAndUpdate(userId, {
     about: about,

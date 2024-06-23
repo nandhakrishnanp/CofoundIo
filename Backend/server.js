@@ -7,6 +7,7 @@ const nodemailer = require('nodemailer');
 app.use(express.json());
 app.use(cors());
 const mongoose = require("mongoose");
+const StoreMessage = require("./fireBase/messageController");
 mongoose.connection.useDb("CoFoundio");
 const io = require('socket.io')(3001,{
   cors:{
@@ -32,7 +33,7 @@ const connectDB = async () => {
 connectDB();
 
 app.use("/user", require("./Routes/userRoute"));
-
+app.use("/messages", require("./Routes/messageRoutes"));
 app.use("/posts",require("./Routes/postRoutes"))
 app.use("/project",   require("./Routes/projectRoutes"))
 
@@ -41,12 +42,36 @@ app.get("/", (req, res) => {
     msg: "Hello server is live",
   });
 });
+const logRoomUsers = (room) => {
+  const roomInfo = io.sockets.adapter.rooms.get(room);
+  const numUsers = roomInfo ? roomInfo.size : 0;
+  console.log(`Number of users in room ${room}: ${numUsers}`);
+};
 
 io.on('connection',(socket)=>{
   console.log("a user connected");
-  socket.on('message',(data)=>{
+
+  socket.on("joinroom",(room)=>{
+    socket.join(room);
+    console.log("User Joined Room",room);
+    logRoomUsers(room);
+  })
+
+
+  socket.on("sendmessage",(data)=>{
     console.log(data);
-    socket.broadcast.emit('message',data);
+    StoreMessage(data);
+    socket.broadcast.to(data.room).emit("message",data.message);
+  })
+  socket.on('leaveRoom', (room) => {
+    socket.leave(room);
+    console.log(`User left room: ${room}`);
+    logRoomUsers(room); // Log the number of users in the room
+  });
+
+  socket.on("disconnect",(room)=>{
+    socket.leave(room);
+    console.log("User Disconnected");
   })
 })
 

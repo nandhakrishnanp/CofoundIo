@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { MyTeams } from "../../Store/projectSlice";
 import exploreIcon from "../../assets/explore.svg";
 import Chat from "./chat";
+import socket from "../../socket.js";
 const Myteams = () => {
   const dispatch = useDispatch();
   let nav = useNavigate();
@@ -18,6 +19,10 @@ const Myteams = () => {
     }
   }, []);
  const handleTeamChange=(team)=>{
+  if(currenTeam){
+
+    socket.emit("leaveRoom" , currenTeam.projectId)
+  }
   setCurrenTeam(team)
 }
   return (
