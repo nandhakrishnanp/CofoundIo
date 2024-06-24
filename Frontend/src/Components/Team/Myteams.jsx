@@ -4,27 +4,31 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { MyTeams } from "../../Store/projectSlice";
 import exploreIcon from "../../assets/explore.svg";
+
 import Chat from "./chat";
 import socket from "../../socket.js";
+import { FetchGroupChat, allChatMessages } from "../../Store/messageSlice.js";
+import { fetchAllPostByUser } from "../../Store/postSlice.js";
 const Myteams = () => {
   const dispatch = useDispatch();
   let nav = useNavigate();
-  const [currenTeam,setCurrenTeam]=useState(null)
+  const [currenTeam, setCurrenTeam] = useState(null);
+  const ChatData = useSelector(allChatMessages)
   const MyAllTeams = useSelector(MyTeams);
   useEffect(() => {
     if (MyAllTeams.length == 0) {
       nav("/exploreTeams");
-    }else{
-      console.log(MyAllTeams,"hello");
+    } else {
+      console.log(MyAllTeams, "hello");
     }
   }, []);
- const handleTeamChange=(team)=>{
-  if(currenTeam){
-
-    socket.emit("leaveRoom" , currenTeam.projectId)
-  }
-  setCurrenTeam(team)
-}
+  const handleTeamChange = (team) => {
+    if (currenTeam) {
+      dispatch(FetchGroupChat(team.projectId))
+      socket.emit("leaveRoom", currenTeam.projectId);
+    }
+    setCurrenTeam(team);
+  };
   return (
     <>
       <Navbar />
@@ -36,7 +40,7 @@ const Myteams = () => {
               <h1 className=" font-bold text-2xl px-4   text-primary p-2">
                 My Teams.
               </h1>
-              <Link  className=" m-3"to="/exploreTeams">
+              <Link className=" m-3" to="/exploreTeams">
                 <img
                   src={exploreIcon}
                   className="hover:scale-110 transition-all duration-100 w-7   cursor-pointer "
@@ -47,11 +51,28 @@ const Myteams = () => {
             <div className="flex flex-col overflow-y-auto">
               {MyAllTeams.length > 0
                 ? MyAllTeams.map((team) => (
-                    <div onClick={()=>handleTeamChange(team)} className={`p-4 ${currenTeam && team.tittle===currenTeam.tittle?"bg-primary  ":"hover:bg-primary/5"}  transition-all duration-150 cursor-pointer   flex  gap-2  items-center  `}>
-                        <img src={team.profileUrl}  className=" w-10 h-10 bg-slate-400 rounded-full"/>
-              
-                       
-                      <h1 className={`capitalize ${currenTeam && team.tittle===currenTeam.tittle?"text-white":"text-dark-blue"}     text-lg font-bold `}>{team.tittle}</h1>
+                    <div
+                      onClick={() => handleTeamChange(team)}
+                      className={`p-4 ${
+                        currenTeam && team.tittle === currenTeam.tittle
+                          ? "bg-primary  "
+                          : "hover:bg-primary/5"
+                      }  transition-all duration-150 cursor-pointer   flex  gap-2  items-center  `}
+                    >
+                      <img
+                        src={team.profileUrl}
+                        className=" w-10 h-10 bg-slate-400 rounded-full"
+                      />
+
+                      <h1
+                        className={`capitalize ${
+                          currenTeam && team.tittle === currenTeam.tittle
+                            ? "text-white"
+                            : "text-dark-blue"
+                        }     text-lg font-bold `}
+                      >
+                        {team.tittle}
+                      </h1>
                     </div>
                   ))
                 : null}
@@ -59,8 +80,7 @@ const Myteams = () => {
           </div>
 
           <div className="flex-1   justify-center">
-            {currenTeam ?  <Chat team ={currenTeam} />:null}
-          
+            {currenTeam ? <Chat team={currenTeam} /> : null}
           </div>
         </div>
       </div>
