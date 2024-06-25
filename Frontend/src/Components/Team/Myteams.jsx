@@ -13,7 +13,7 @@ const Myteams = () => {
   const dispatch = useDispatch();
   let nav = useNavigate();
   const [currenTeam, setCurrenTeam] = useState(null);
-  const ChatData = useSelector(allChatMessages)
+ 
   const MyAllTeams = useSelector(MyTeams);
   useEffect(() => {
     if (MyAllTeams.length == 0) {
@@ -23,8 +23,8 @@ const Myteams = () => {
     }
   }, []);
   const handleTeamChange = (team) => {
+    dispatch(FetchGroupChat(team.projectId))
     if (currenTeam) {
-      dispatch(FetchGroupChat(team.projectId))
       socket.emit("leaveRoom", currenTeam.projectId);
     }
     setCurrenTeam(team);

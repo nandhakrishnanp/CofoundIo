@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { allTeams } from "../../Store/projectSlice";
+
 import {
   UserData,
   fetchUserDataByID,
@@ -12,6 +13,7 @@ import { useRef } from "react";
 import { FaArrowCircleRight } from "react-icons/fa";
 import { FaGear, FaPeopleGroup } from "react-icons/fa6";
 import socket from "../../socket.js";
+import { allChatMessages } from "../../Store/messageSlice.js";
 
 function ChatNav(props) {
   const [teamName, setTeamName] = useState("Team Name");
@@ -34,7 +36,7 @@ function ChatNav(props) {
   // // Define the server URL
 }
 function Chat({ team }) {
- 
+  const ChatData = useSelector(allChatMessages)
   const [message, setMessage] = useState("");
   const userDetails = useSelector(UserData);
 
@@ -42,38 +44,23 @@ function Chat({ team }) {
 
   const userName = userDetails.userDetails.userName;
   const [messages, setMessages] = useState([
-    {
-      sender: "StarOne",
-      text: "Hello team!",
-    },
-    {
-      sender: "user2",
-      text: "Hi user1!",
-    },
-    {
-      sender: "StarOne",
-      text: "How are you?",
-    },
-    {
-      sender: "user2",
-      text: "I am fine, thank you!",
-    },
-    {
-      sender: "StarOne",
-      text: "Great!",
-    },
-    {
-      sender: "user2",
-      text: "How about you?",
-    },
-    {
-      sender: "StarOne",
-      text: "I am doing well too!",
-    },
+   
   ]);
-  useEffect(() => {
-    containerRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  useEffect(()=>{
+     if(ChatData){
+       const fillteredChat = ChatData.filter((chat)=>chat.room==team.projectId)
+       if(fillteredChat){
+          fillteredChat.map((chat)=>{
+           setMessages([...messages,chat.message])
+           console.log(messages);
+          }
+          )
+       }
+     }
+  },[ChatData])
+  // useEffect(() => {
+  //   containerRef.current?.scrollIntoView({ behavior: "smooth" });
+  // }, [messages]);
 
   function handleInputChange(event) {
     setMessage(event.target.value);
@@ -104,7 +91,7 @@ function Chat({ team }) {
     <div className=" max-h-screen    overflow-y-scroll   w-full">
       <ChatNav teamName={team.tittle} />
       <div className=" z-6 ">
-        <div className="  min-h-screen pb-8 mb-5">
+        <div className=" mt-[44px] min-h-screen pb-8 ">
           {messages.map((message, index) => (
             <div
               key={index}
