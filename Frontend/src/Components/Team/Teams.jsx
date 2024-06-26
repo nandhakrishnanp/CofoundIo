@@ -16,7 +16,7 @@ const Teams = () => {
   useEffect(() => {
     dispatch(fetchAllTeam());
     
-    console.log(DicoverTeam);
+   
   }, []);
 
   const handleJoinRequest=(projectId)=>{

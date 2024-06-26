@@ -10,8 +10,7 @@ import { acceptJoinRequest } from '../../Store/projectSlice';
     const allNotification = useSelector(allMyNotifications)
     useEffect(()=>{
          dispatch(fetchNotification())
-         console.log(allNotification);
-         console.log("dispatched");
+        
     },[])
    return (
      <div className='bg-Secondary min-h-screen '>

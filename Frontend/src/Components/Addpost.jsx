@@ -124,7 +124,7 @@ const Addpost = () => {
                   className="  text-lg text-white  font-bold   font-sans   bg-primary  w-[70%]  py-2 rounded-lg hover:bg-primary/90"
                   onClick={() => {
                     UploadPostClick();
-                    console.log(content);
+                  
                   }}
                 >
                   Finish Post

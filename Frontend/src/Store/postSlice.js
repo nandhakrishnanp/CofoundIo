@@ -120,8 +120,7 @@ const postSlice = createSlice({
     });
     builder.addCase(fetchPosts.fulfilled, (state, action) => {
       state.loading = false;
-      console.log("fetched");
-      console.log(action.payload.post);
+      
       state.posts = action.payload.post;
     });
     builder.addCase(fetchPosts.rejected, (state, action) => {

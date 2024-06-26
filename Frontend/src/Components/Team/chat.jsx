@@ -52,7 +52,7 @@ function Chat({ team }) {
        if(fillteredChat){
           fillteredChat.map((chat)=>{
            setMessages([...messages,chat.message])
-           console.log(messages);
+          
           }
           )
        }

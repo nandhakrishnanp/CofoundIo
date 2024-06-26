@@ -75,7 +75,7 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         const data = action.payload;
-        console.log(data.msg);
+       
 
         if (data.token) {
           state.status = "fullfilled";

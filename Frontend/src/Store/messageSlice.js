@@ -14,7 +14,7 @@ const FetchGroupChat = createAsyncThunk("fetch/messages", async (projectId) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log("yeah chat fetched", response.data);
+   
     return response.data;
   } catch (error) {
     toast(err.message);

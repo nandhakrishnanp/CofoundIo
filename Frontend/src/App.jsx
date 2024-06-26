@@ -15,6 +15,7 @@ import "aos/dist/aos.css";
 import Notification from "./Components/notification/Notification";
 import Chat from "./Components/Team/chat";
 import Myteams from "./Components/Team/Myteams";
+import Landing from "./Components/Landingpage/Landing";
 
 Aos.init({
  once:true
@@ -38,6 +39,7 @@ function App() {
         transition:Slide
       />
       <Routes>
+        <Route path="/" element={<Landing/>} />
         <Route path="/login" element={<Login />} />
         <Route element={<Protectedroute />}>
           <Route path="/info" element={<Info />} />

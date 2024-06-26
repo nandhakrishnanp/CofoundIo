@@ -65,14 +65,14 @@ const  addJoinRequest = createAsyncThunk("project/joinRequest" , async(projectId
  
 const acceptJoinRequest = createAsyncThunk("project/acceptJoinRequest", async(nId)=>{
   try {
-     console.log(nId);
+     
     const token = localStorage.getItem("token");
     const response = await axios.post("/project/acceptJoinRequest",{nId}, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-  console.log(response.data);
+
     return response.data;
   } catch (error) { 
     return error.message;
@@ -86,7 +86,7 @@ const projectSLice = createSlice({
     extraReducers:(builder)=>{
          builder.addCase(fetchAllTeam.fulfilled,(state,action)=>{
             const team = action.payload
-            console.log(team.projects);
+            
             state.allprojects=team.projects
           })
           builder.addCase(fetchAllTeam.rejected,(state,action)=>{
@@ -114,7 +114,7 @@ const projectSLice = createSlice({
        })
        builder.addCase(fetchMyTeam.fulfilled, (state,action)=>{
           state.myprojects = action.payload.projects
-          console.log(action.payload);
+          
        })
     }
 })

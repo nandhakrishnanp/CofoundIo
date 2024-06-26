@@ -43,7 +43,7 @@ const Login = () => {
   };
   const validateForm = () => {
     const errors = { username: "", password: "", fullname: "" };
-    console.log(userName.length);
+   
     if (userName.length >= 16 || userName.length < 5) {
       errors.username =
         "Username must be less than 16 characters and greater than 5";
