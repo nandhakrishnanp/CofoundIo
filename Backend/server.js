@@ -2,28 +2,24 @@ const express = require("express");
 const app = express();
 const dotenv = require("dotenv").config();
 const cors = require("cors");
-const nodemailer = require('nodemailer');
+const nodemailer = require("nodemailer");
 
 app.use(express.json());
 app.use(cors());
 const mongoose = require("mongoose");
 const StoreMessage = require("./fireBase/messageController");
 mongoose.connection.useDb("CoFoundio");
-const io = require('socket.io')(3001,{
-  cors:{
-      origin: '*',
-  }
-})
+const io = require("socket.io")(3001, {
+  cors: {
+    origin: "*",
+  },
+});
 
 const connectDB = async () => {
   try {
-    const connect = await mongoose.connect(
-      process.env.MONGO_DB_URL
-      ,
-      {
-        dbName: "CoFoundio",
-      }
-    );
+    const connect = await mongoose.connect(process.env.MONGO_DB_URL, {
+      dbName: "CoFoundio",
+    });
     console.log("connected to mongoDB");
   } catch (err) {
     console.log(err.message);
@@ -34,8 +30,8 @@ connectDB();
 
 app.use("/user", require("./Routes/userRoute"));
 app.use("/messages", require("./Routes/messageRoutes"));
-app.use("/posts",require("./Routes/postRoutes"))
-app.use("/project",   require("./Routes/projectRoutes"))
+app.use("/posts", require("./Routes/postRoutes"));
+app.use("/project", require("./Routes/projectRoutes"));
 
 app.get("/", (req, res) => {
   res.json({
@@ -48,32 +44,42 @@ const logRoomUsers = (room) => {
   console.log(`Number of users in room ${room}: ${numUsers}`);
 };
 
-io.on('connection',(socket)=>{
+io.on("connection", (socket) => {
   console.log("a user connected");
 
-  socket.on("joinroom",(room)=>{
+  socket.on("joinroom", (room) => {
     socket.join(room);
-    console.log("User Joined Room",room);
+    console.log("User Joined Room", room);
     logRoomUsers(room);
-  })
+  });
 
+  /* data = {
+   projectId:53526,
+   message:{
+     UserId: "userId",
+      content: "message" 
+   }
+    date: "date"
+ 
+}        
 
-  socket.on("sendmessage",(data)=>{
+*/
+  socket.on("sendmessage", (data) => {
     console.log(data);
-    StoreMessage(data);
-    socket.broadcast.to(data.room).emit("message",data.message);
-  })
-  socket.on('leaveRoom', (room) => {
+    StoreMessage(data.projectId, data.message);
+    socket.broadcast.to(data.projectId).emit("message", data.message);
+  });
+  socket.on("leaveRoom", (room) => {
     socket.leave(room);
     console.log(`User left room: ${room}`);
     logRoomUsers(room); // Log the number of users in the room
   });
 
-  socket.on("disconnect",(room)=>{
+  socket.on("disconnect", (room) => {
     socket.leave(room);
     console.log("User Disconnected");
-  })
-})
+  });
+});
 
 app.listen(process.env.PORT, () => {
   console.log("Server is Runnning on " + process.env.PORT);

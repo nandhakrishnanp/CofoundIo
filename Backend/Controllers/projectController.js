@@ -81,7 +81,8 @@ const deleteProject = async (req, res) => {
 
 const getMyProject = async (req, res) => {
   const userId = req.user.userId;
-  const projects = await projectModel.find({ $or: [{ members: userId }, { createdby: userId }] });
+  const projects = await projectModel.find({ $or: [{ members: userId },
+     { createdby: userId }] }).populate('createdby', 'name profileUrl').populate('members', 'name profileUrl');
   res.json({ projects });
 };
 

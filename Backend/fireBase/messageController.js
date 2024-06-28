@@ -1,25 +1,25 @@
- const db = require("./dbconfig.js")
+const db = require("./dbconfig.js");
 
+const StoreMessage = async (projectId, messageData) => {
+  try {
+    console.log(projectId);
+    let UserId = messageData.UserId;
 
- const StoreMessage= async (messageData)=>{
-    try {
-         let roomid = messageData.room;
-        const newMessageId = db.ref('/messages').child(roomid).push().key;
+    const newMessageId = db.ref(`${projectId}`).child(UserId).push().key;
 
-    // Create the message object 
+    // Create the message object
     const newMessage = {
-      ...messageData, // Spread message data from request
-      date: Date.now()
+      ...messageData,
+      date: Date.now(),
     };
 
-   //setting the message in the database
-    await db.ref('/messages').child(newMessageId).set(newMessage);
+    //setting the message in dB
+    await db.ref(`${projectId}`).child(newMessageId).set(newMessage);
     console.log("new message stored in the database");
-    } catch (error) {
-        console.log(error.message);
-        return error;
-    }
- }
+  } catch (error) {
+    console.log(error.message);
+    return error;
+  }
+};
 
- 
 module.exports = StoreMessage;

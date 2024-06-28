@@ -14,7 +14,7 @@ const FetchGroupChat = createAsyncThunk("fetch/messages", async (projectId) => {
         Authorization: `Bearer ${token}`,
       },
     });
-   
+    console.log(response.data);
     return response.data;
   } catch (error) {
     toast(err.message);
@@ -24,16 +24,27 @@ const FetchGroupChat = createAsyncThunk("fetch/messages", async (projectId) => {
 const messageSLice = createSlice({
   name: "Messages",
   initialState,
-  reducers: {},
+  reducers: {
+    addMessageToStore: (state, action) => {
+      const { projectId, message } = action.payload;
+      if (state.messages[projectId]) {
+        state.messages[projectId].push(message);
+      } else {
+        state.messages[projectId] = [message];
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(FetchGroupChat.fulfilled, (state, action) => {
-      const chat = action.payload;
-
-      state.messages = chat;
+      const Response = action.payload;
+      state.messages[Response.projectId] = Response.messages;
     });
   },
 });
 
-export { FetchGroupChat };
+export { FetchGroupChat  };
 export const allChatMessages = (state) => state.messages.messages;
+export const { addMessageToStore } = messageSLice.actions;
 export default messageSLice.reducer;
+
+

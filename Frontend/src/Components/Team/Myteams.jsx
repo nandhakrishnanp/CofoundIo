@@ -21,6 +21,9 @@ const Myteams = () => {
     } else {
       console.log(MyAllTeams, "hello");
     }
+    return () => {
+      socket.disconnect(); // Disconnect the socket connection globally
+    };
   }, []);
   const handleTeamChange = (team) => {
     dispatch(FetchGroupChat(team.projectId))

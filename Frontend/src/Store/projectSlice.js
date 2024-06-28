@@ -20,6 +20,7 @@ const fetchMyTeam = createAsyncThunk("project/fetchMyproject",async()=>{
     const response = await axios.get("project/myProject",{ headers:{
      Authorization: `Bearer ${token}`,
     }})
+    console.log(response.data);
 
     return response.data
   } catch (error) {

@@ -3,24 +3,32 @@
 
 
  const getMessagesByProjectId = async (req, res) => {
-        try {
-            console.log("project");
-            const projectId = req.params.projectId;
-            const messages = [];
-            db.ref('/messages').orderByChild('room').equalTo(projectId).on('value', (snapshot) => {
+    try {
+        console.log("project");
+        const projectId = req.params.projectId;
+        const messages = await new Promise((resolve, reject) => {
+            let msg = []; // Initialize msg outside the forEach loop
+            db.ref(`${projectId}`).once('value', (snapshot) => {
                 snapshot.forEach((childSnapshot) => {
-                    messages.push({
+                    msg.push({
                         id: childSnapshot.key,
                         ...childSnapshot.val()
                     });
                 });
-                console.log(messages);
-                res.json(messages);
+                resolve(msg);
+            }, (error) => {
+                reject(error); 
             });
-        } catch (error) {
-            console.log(error.message);
-            return error;
+        });
+        const messageResponse={
+            projectId:projectId,
+            messages:messages
         }
+        res.status(200).json(messageResponse); 
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ msg: error.message }); 
     }
+};
 
     module.exports ={ getMessagesByProjectId}
