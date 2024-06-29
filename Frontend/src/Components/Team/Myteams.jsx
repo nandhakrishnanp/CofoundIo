@@ -6,19 +6,22 @@ import { MyTeams } from "../../Store/projectSlice";
 import exploreIcon from "../../assets/explore.svg";
 
 import Chat from "./chat";
-import socket from "../../socket.js";
+
 import { FetchGroupChat, allChatMessages } from "../../Store/messageSlice.js";
 import { fetchAllPostByUser } from "../../Store/postSlice.js";
+import socket from "../../socket.js";
+
 const Myteams = () => {
   const dispatch = useDispatch();
   let nav = useNavigate();
   const [currenTeam, setCurrenTeam] = useState(null);
- 
+
   const MyAllTeams = useSelector(MyTeams);
   useEffect(() => {
     if (MyAllTeams.length == 0) {
       nav("/exploreTeams");
     } else {
+      socket.connect();
       console.log(MyAllTeams, "hello");
     }
     return () => {
@@ -82,7 +85,7 @@ const Myteams = () => {
             </div>
           </div>
 
-          <div className="flex-1   justify-center">
+          <div className="flex-1 w-[70%]  justify-center">
             {currenTeam ? <Chat team={currenTeam} /> : null}
           </div>
         </div>

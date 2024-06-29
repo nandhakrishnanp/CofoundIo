@@ -3,41 +3,85 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { allTeams } from "../../Store/projectSlice";
-import {format} from "date-fns";
+import { format } from "date-fns";
 import {
   UserData,
   fetchUserDataByID,
   profileUser,
 } from "../../Store/userSlice";
 import { useRef } from "react";
-import { FaArrowCircleRight } from "react-icons/fa";
+import { FaArrowCircleRight, FaTeamspeak } from "react-icons/fa";
 import { FaGear, FaPeopleGroup } from "react-icons/fa6";
 import socket from "../../socket.js";
 import {
   addMessageToStore,
   allChatMessages,
 } from "../../Store/messageSlice.js";
+import close from "../../assets/close.svg";
+import { RiProfileFill } from "react-icons/ri";
 
-function ChatNav(props) {
-  const [teamName, setTeamName] = useState("Team Name");
-  const [teamMembers, setTeamMembers] = useState(["User1", "User2", "User3"]);
+
+function ChatNav({ teamTittle, teamMembers, createdby }) {
+  const [openTeamMembers, setOpenTeamMembers] = useState(false);
 
   return (
     <div className="flex fixed w-full justify-start   items-center  bg-primary text-white">
       <div className=" flex items-center gap-10 w-3/4">
-        <h1 className="text-2xl p-1  font-bold">{props.teamName}</h1>
-        <FaPeopleGroup className="  text-2xl" />
-        <FaGear className=" text-2xl" />
+        <h1 className="text-2xl  px-4 py-1  font-semibold">{teamTittle}</h1>
+
+        <RiProfileFill
+          onClick={() => setOpenTeamMembers(!openTeamMembers)}
+          className="  flex-1 text-xl  cursor-pointer   rounded-full hover:scale-105 transition-all duration-150"
+        />
       </div>
+      {openTeamMembers && (
+        <div className="absolute overflow-hidden overflow-y-scroll top-10 flex  flex-col    w-full  z-50  ">
+          <div
+           data-aos="zoom-in"
+            className="  bg-white  rounded-xl  w-[500px] h-[70vh]"
+          >
+            <div className=" flex items-center  justify-center">
+              <h1 className=" font-bold text-2xl px-4 text-primary ">
+                Team Members.
+              </h1>
+              <img
+                onClick={() => setOpenTeamMembers(!openTeamMembers)}
+                src={close}
+                alt="close-button"
+                className="hover:cursor-pointer   w-6"
+              />
+            </div>
+            <div className=" flex flex-col items-start px-2 gap-2">
+              <div className=" flex items-center cursor-pointer gap-2">
+                <img
+                  src={createdby.profileUrl}
+                  className="w-10 object-cover h-10 rounded-full"
+                />
+                <p className=" text-black font-monsherrat">{createdby.name}</p>
+                <p className=" flex-1 text-emerald-800 text-xs bg-green-200 px-1 rounded-lg">
+                  Admin
+                </p>
+              </div>
+              {teamMembers &&
+                teamMembers.map((member) => (
+                  <div className=" flex items-center hover:cursor-pointer gap-2">
+                    <img
+                      src={member.profileUrl}
+                      className="w-10 object-cover h-10 rounded-full"
+                    />
+                    <Link to={`/profile/${member._id}`}>
+                    <p className=" text-black font-monsherrat">{member.name}</p>
+                    </Link>
+                  </div>
+                ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
-{
-  // // Import the required dependencies
-  //
-  // // Define the server URL
-}
 function Chat({ team }) {
   const dispatch = useDispatch();
   const ChatData = useSelector(allChatMessages);
@@ -47,13 +91,13 @@ function Chat({ team }) {
   const containerRef = useRef(null);
   const UserId = userDetails.userDetails._id;
   const userName = userDetails.userDetails.userName;
-   const Members = team.members;
+  const Members = team.members;
   const [messages, setMessages] = useState([]);
-  const nav = useNavigate()
-  const CurrentProjectId= team.projectId;
+  const nav = useNavigate();
+  const CurrentProjectId = team.projectId;
   useEffect(() => {
-   setMessages(ChatData[CurrentProjectId]);
-   console.log(ChatData[CurrentProjectId],"current chat");
+    setMessages(ChatData[CurrentProjectId]);
+    console.log(ChatData[CurrentProjectId], "current chat");
   }, [ChatData]);
   useEffect(() => {
     containerRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -65,19 +109,21 @@ function Chat({ team }) {
 
   // Send a message to the team chat room
 
-
   useEffect(() => {
     socket.emit("joinroom", team.projectId);
   }, [team]);
 
-  const handleOnMessage = useCallback((data) => {
-    dispatch(
-      addMessageToStore({
-        projectId: team.projectId,
-        message: data,
-      })
-    );
-  }, [dispatch, team.projectId]);
+  const handleOnMessage = useCallback(
+    (data) => {
+      dispatch(
+        addMessageToStore({
+          projectId: team.projectId,
+          message: data,
+        })
+      );
+    },
+    [dispatch, team.projectId]
+  );
 
   useEffect(() => {
     socket.on("message", handleOnMessage);
@@ -86,8 +132,6 @@ function Chat({ team }) {
       socket.off("message", handleOnMessage);
     };
   }, [socket]);
- 
-
 
   function handleSendMessage() {
     socket.emit("sendmessage", {
@@ -109,42 +153,80 @@ function Chat({ team }) {
 
   return (
     <div className=" max-h-screen    overflow-y-scroll   w-full">
-      <ChatNav teamName={team.tittle} />
-      <div className=" z-10  mt-28 mb-11 flex flex-col ">
-       
-        {
-          messages.length>0?messages.map((message) => {
-            
-             const date = message.date;
-             
-             let currentUser = Members.find((member) => member._id === message.UserId);
-            
-              if(!currentUser){
-                currentUser=team.createdby
-              }
-             const formattedDate = format(date, 'yy-MM-dd hh:mm a');
+      <ChatNav
+        teamTittle={team.tittle}
+        teamMembers={team.members}
+        createdby={team.createdby}
+      />
+      <div className="  mt-28 mb-11 flex flex-col ">
+        {messages.length > 0 ? (
+          messages.map((message) => {
+            const date = message.date;
+
+            let currentUser = Members.find(
+              (member) => member._id === message.UserId
+            );
+
+            if (!currentUser) {
+              currentUser = team.createdby;
+            }
+            const formattedDate = format(date, "yy-MM-dd hh:mm a");
             return (
-             <div className=" flex mx-2 items-center ">
-             <div className={`  flex w-full items-center   ${ message.UserId==UserId ? "  justify-end ":"  justify-start"} `}>
-               <div>
-                <img src={currentUser.profileUrl} className="w-10 object-cover h-10 rounded-full" />
-               </div>
-          
-             <div className={` ${ message.UserId==UserId ?"bg-primary text-white": "bg-white"} rounded-md my-2 mx-2 p-[5px] px-2`}>
-             
-             <p  onClick={()=>nav(`/profile/${currentUser._id}`)} className={` cursor-pointer hover:scale-105 font-bold ${ message.UserId==UserId ? "text-white":"text-primary"}`}>{currentUser.name}</p>
-            
-             <p className=" font-semibold p-1">{ message.content}</p>
-             <p className={`${ message.UserId==UserId ?" text-white/20": " text-gray-500"}py-1 text-[10px] font-monsherrat `}>{ formattedDate}</p>
-             
-             </div>
-             </div>
-             </div>
-           
-          )}) : <div className="  grid place-items-center">
-               <h1 className=" text-2xl  font-monsherrat font-bold text-primary">Start Innovating.. Start Conversation</h1>
+              <div className=" flex mx-2 items-center mb-8 ">
+                <div
+                  className={`  flex w-full items-center  ${
+                    message.UserId == UserId
+                      ? "  justify-end "
+                      : "  justify-start"
+                  } `}
+                >
+                  <div>
+                    <img
+                      src={currentUser.profileUrl}
+                      className="w-10 object-cover h-10 rounded-full"
+                    />
+                  </div>
+
+                  <div
+                    className={`  max-w-[450px]  ${
+                      message.UserId == UserId
+                        ? "bg-primary text-white"
+                        : "bg-white"
+                    } rounded-md my-2 mx-2 p-[5px] px-2`}
+                  >
+                    <p
+                      onClick={() => nav(`/profile/${currentUser._id}`)}
+                      className={` text-xs cursor-pointer hover:shadow-xl font-bold ${
+                        message.UserId == UserId ? "text-white" : "text-primary"
+                      }`}
+                    >
+                      {currentUser.name}
+                    </p>
+
+                    <p className=" capitalize font-semibold p-1">
+                      {message.content}
+                    </p>
+                    <p
+                      className={`${
+                        message.UserId == UserId
+                          ? " text-white/20"
+                          : " text-gray-500"
+                      }py-1 text-xs font-monsherrat `}
+                    >
+                      {formattedDate}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })
+        ) : (
+          <div className="  grid place-items-center">
+            <h1 className=" text-2xl  font-monsherrat font-bold text-primary">
+              Start Innovating.. Start Conversation
+            </h1>
           </div>
-        }
+        )}
         <div>
           <div ref={containerRef} />
           <form
