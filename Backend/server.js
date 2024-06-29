@@ -8,13 +8,14 @@ app.use(express.json());
 app.use(cors());
 const mongoose = require("mongoose");
 const StoreMessage = require("./fireBase/messageController");
+const { GenerateSummary } = require("./Gemini/gemini");
 mongoose.connection.useDb("CoFoundio");
 const io = require("socket.io")(3001, {
   cors: {
     origin: "*",
   },
 });
-
+// GenerateSummary(1)
 const connectDB = async () => {
   try {
     const connect = await mongoose.connect(process.env.MONGO_DB_URL, {
