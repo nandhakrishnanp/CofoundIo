@@ -1,4 +1,5 @@
- const db = require("../fireBase/dbconfig.js")
+ const { GenerateSummary } = require("../Gemini/gemini.js");
+const db = require("../fireBase/dbconfig.js")
 
 
 
@@ -31,4 +32,15 @@
     }
 };
 
-    module.exports ={ getMessagesByProjectId}
+const GenerateSummaryByChatData = async (req, res) => {
+    try {
+        const {chatData} = req.body;
+        console.log("chatData",chatData);
+        const summary = await GenerateSummary(chatData);
+        res.json({ summary }).status(200);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ msg: error.message });
+    }}
+
+    module.exports ={ getMessagesByProjectId ,GenerateSummaryByChatData}

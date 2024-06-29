@@ -5,34 +5,32 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
 
-async function GenerateSummary(projectId) {
-    
+async function GenerateSummary(chatData) {
 
-    // some logigs to fetch the data from the database 
-    // and then pass it to the model
-    const chat = model.startChat({
-        history: [
-          {
-            role: "user",
-            parts: [{ text: "Hello, I have 2 dogs in my house." }],
-          },
-          {
-            role: "model",
-            parts: [{ text: "Great to meet you. What would you like to know?" }],
-          },
-        ],
-        generationConfig: {
-          maxOutputTokens: 100,
-        },
-      });
+   try {
     
-      const msg = "How many paws are in my house?";
+console.log("chatData")
+// some logigs to fetch the data from the database 
+// and then pass it to the model
     
-    const result = await chat.sendMessage(msg);
-    const response = result.response;
-    const text = response.text();
-    console.log(text);
-    return text;
+const chat = model.startChat({
+    history: chatData,
+    generationConfig: {
+      maxOutputTokens: 200,
+    },
+  });
+
+const msg = "you are a chatbot in projectDiscusstion team , point out & concisely summarize the key points discussed and the decisions made during the conversation. Maintain a neutral tone and avoid attributing specific statements to any individual participant";
+
+const result = await chat.sendMessage(msg);
+const response =await result.response;
+const text = response.text();
+console.log(text);
+return text;
+   } catch (error) {
+    console.log(error.message);
+    return error;
   }
+}
   
 module.exports = { GenerateSummary };
