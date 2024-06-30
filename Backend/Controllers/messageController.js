@@ -1,5 +1,6 @@
  const { GenerateSummary } = require("../Gemini/gemini.js");
-const db = require("../fireBase/dbconfig.js")
+const db = require("../fireBase/dbconfig.js");
+const StoreMessage = require("../fireBase/messageController.js");
 
 
 
@@ -34,10 +35,22 @@ const db = require("../fireBase/dbconfig.js")
 
 const GenerateSummaryByChatData = async (req, res) => {
     try {
-        const {chatData} = req.body;
-        console.log("chatData",chatData);
-        const summary = await GenerateSummary(chatData);
-        res.json({ summary }).status(200);
+        const {projectId,chatData} = req.body;
+        console.log(chatData, "chatData");
+        if(chatData){
+
+            const summary = await GenerateSummary(chatData);
+            const message={
+                projectId:projectId,
+                content:summary,
+                date:Date.now(),
+                UserId:"bot"
+            }
+            await StoreMessage(projectId,message);
+            res.json({ summary }).status(200);
+        }else{
+            res.json({ msg: "Chat data is required" }).status(400);
+        }
     } catch (error) {
         console.log(error.message);
         res.status(500).json({ msg: error.message });

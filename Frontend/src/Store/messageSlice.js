@@ -21,6 +21,30 @@ const FetchGroupChat = createAsyncThunk("fetch/messages", async (projectId) => {
   }
 });
 
+const FetchChatSummary = createAsyncThunk("fetch/summary", async ({ projectId, chatData }) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.post("/messages/summary", {projectId,chatData}, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(response.data);
+    const message={
+      projectId:projectId,
+      content:response.data.summary,
+      date:Date.now(),
+      UserId:"bot"
+    }
+    return message;
+  } catch (error) {
+
+    toast(err.message);
+  }
+}
+);
+
+
 const messageSLice = createSlice({
   name: "Messages",
   initialState,
@@ -38,11 +62,20 @@ const messageSLice = createSlice({
     builder.addCase(FetchGroupChat.fulfilled, (state, action) => {
       const Response = action.payload;
       state.messages[Response.projectId] = Response.messages;
+    })
+    builder.addCase(FetchChatSummary.fulfilled, (state, action) => {
+      const message = action.payload;
+      if (state.messages[message.projectId]) {
+        state.messages[message.projectId].push(message);
+      } else {
+        state.messages[message.projectId] = [message];
+      }
     });
+
   },
 });
 
-export { FetchGroupChat  };
+export { FetchGroupChat, FetchChatSummary  };
 export const allChatMessages = (state) => state.messages.messages;
 export const { addMessageToStore } = messageSLice.actions;
 export default messageSLice.reducer;

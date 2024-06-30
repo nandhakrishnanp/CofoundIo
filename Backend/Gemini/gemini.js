@@ -1,22 +1,20 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
+const StoreMessage = require("../fireBase/messageController");
 
-// Access your API key as an environment variable (see "Set up your API key" above)
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
 
-async function GenerateSummary(chatData) {
+async function GenerateSummary( chatData) {
 
    try {
     
-console.log("chatData")
-// some logigs to fetch the data from the database 
-// and then pass it to the model
-    
+console.log(chatData)
+
 const chat = model.startChat({
     history: chatData,
     generationConfig: {
-      maxOutputTokens: 200,
+      maxOutputTokens: 150,
     },
   });
 
