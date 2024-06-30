@@ -14,7 +14,7 @@ console.log(chatData)
 const chat = model.startChat({
     history: chatData,
     generationConfig: {
-      maxOutputTokens: 150,
+      maxOutputTokens: 100,
     },
   });
 

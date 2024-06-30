@@ -194,7 +194,7 @@ function Chat({ team }) {
         createdby={team.createdby}
       />
       <div className="  mt-28 mb-11 flex flex-col ">
-        {messages.length > 0 ? (
+        { messages && messages.length > 0 ? (
           messages.map((message) => {
             const date = message.date;
 
