@@ -65,10 +65,16 @@ const messageSLice = createSlice({
     })
     builder.addCase(FetchChatSummary.fulfilled, (state, action) => {
       const message = action.payload;
-      if (state.messages[message.projectId]) {
-        state.messages[message.projectId].push(message);
-      } else {
-        state.messages[message.projectId] = [message];
+      if(typeof(message.content)==="string"){
+        
+        if (state.messages[message.projectId]) {
+          state.messages[message.projectId].push(message);
+        } else {
+          state.messages[message.projectId] = [message];
+        }
+      }else{
+        toast("Error in generating summary");
+       
       }
     });
 

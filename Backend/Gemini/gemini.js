@@ -9,7 +9,7 @@ async function GenerateSummary( chatData) {
 
    try {
     
-console.log(chatData)
+console.log(process.env.GEMINI_API_KEY)
 
 const chat = model.startChat({
     history: chatData,

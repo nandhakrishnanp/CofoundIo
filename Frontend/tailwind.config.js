@@ -6,6 +6,9 @@ export default {
       fontFamily: {
         monsherrat: ["Montserrat", "sans-serif"],
         poppins: ["Poppins", "sans-serif"],
+        Mochiy:["Mochiy Pop One", "sans-serif"],
+        Inter:["Inter", "sans-serif"],
+        Plus:["Plus Jakarta Sans", "sans-serif"]
       },
       colors: {
         primary: "#5600FF",
