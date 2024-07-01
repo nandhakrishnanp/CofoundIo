@@ -31,16 +31,16 @@ function ChatNav({ teamTittle, teamMembers, createdby }) {
 
   return (
     <div className="flex fixed w-full justify-start   items-center  bg-primary text-white">
-      <div className=" flex items-center gap-10 w-3/4">
+      <div className=" flex items-center justify-end gap-10 w-3/4">
         <h1 className="text-2xl  px-4 py-1  font-semibold">{teamTittle}</h1>
 
         <RiProfileFill
           onClick={() => setOpenTeamMembers(!openTeamMembers)}
-          className="  flex-1 text-xl  cursor-pointer   rounded-full hover:scale-105 transition-all duration-150"
+          className="  flex-1 text-xl ml-auto px-3 cursor-pointer   rounded-full hover:scale-105 transition-all duration-150"
         />
       </div>
       {openTeamMembers && (
-        <div className="absolute overflow-hidden overflow-y-scroll top-10 flex  flex-col    w-full  z-50  ">
+        <div className="absolute overflow-hidden overflow-y-scroll top-10 left-28 flex  flex-col    w-full  z-50  ">
           <div
             data-aos="zoom-in"
             className="  bg-white  rounded-xl  w-[500px] h-[70vh]"
