@@ -1,6 +1,6 @@
-# Cofound
+# CofoundIo
 
-Cofound is a networking platform designed to connect solo individuals and teams, enabling them to collaborate on innovative projects. Whether you're looking to share your project journey, create a team, join friends, or recruit skilled individuals, Cofound has got you covered.
+CofoundIo is a networking platform designed to connect solo individuals and teams, enabling them to collaborate on innovative projects. Whether you're looking to share your project journey, create a team, join friends, or recruit skilled individuals, Cofound has got you covered.
 
 ##Technologies used ✨ :
 
