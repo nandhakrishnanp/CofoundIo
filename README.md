@@ -1,19 +1,51 @@
-# Cofound
+# CofoundIo
 
-Cofound is a networking platform designed to connect solo individuals and teams, enabling them to collaborate on innovative projects. Whether you're looking to share your project journey, create a team, join friends, or recruit skilled individuals, Cofound has got you covered.
+CofoundIo is a networking platform designed to connect solo individuals and teams, enabling them to collaborate on innovative projects. Whether you're looking to share your project journey, create a team, join friends, or recruit skilled individuals, Cofound has got you covered.
 
-## Features
+## Technologies used ✨ :
 
-- **Project Journey Posting**: Share updates and progress about your project with the community.
-- **Create Teams**: Form teams with like-minded individuals to work on exciting projects.
-- **Join Friends**: Connect with friends and join their projects.
-- **Recruit Skilled Solos**: Find and recruit skilled solo individuals to join your team.
-- **Innovate Projects**: Collaborate and innovate on various projects within the platform.
+-React.js for Frontend
 
-## Built With
+-express.js for backend
 
-- **MERN Stack**: MongoDB, Express.js, React.js, Node.js
-- **Vite**: Fast build tool for the frontend
+-mongoDb as Database
+
+-firebase RealtimeDB for Storing Chat messages
+
+-socketIo for Realtime Socket Connection
+
+-cloudnairy for Image Upload
+
+-google Gemini - for Chat Summarization
+
+-jwt for authorization
+
+-mongoose for Object Handling
+
+-nodeMailer for Otp Validation
+
+
+
+## Key Features :
+
+- Login & Signup with Jwt authorization
+
+- Create Posts with Images , Like & Comment .
+
+- Customize User Profile
+
+-View Other Users Profile
+
+- Create Teams on Various Domains
+
+- Join Teams (Approved By Admin)
+
+- Realtime Chat With Team Members
+
+-Summarize Key Decisions in Discussions by Generative Ai
+
+-Notifications for New Join Request 
+
 
 ## Getting Started
 
