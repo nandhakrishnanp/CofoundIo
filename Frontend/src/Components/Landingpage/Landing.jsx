@@ -23,12 +23,12 @@ const Landing = () => {
         </div>
         <section className=" bg-dark-blue min-h-[90vh] flex justify-center flex-col items-center">
            
-           <h1 className=" text-center shadow-xs shadow-white max-md:text-3xl text-white font-Mochiy text-5xl font-bold">Build Amazing <span className="   text-violet-400">Projects</span> Together</h1>
-          <p className=" text-white py-2 max-md:text-lg font-poppins font-semibold text-xl p-1 text-center">Join a vibrant community of solo innovators and collaborators. Turn your ideas into reality with <br /> the perfect team at Cofoundio</p>
-          <img src={bannerimg} alt="bannerimg" className=" rounded-md mt-2 max-md:w-[80%]  w-1/2" />
+           <h1 data-aos="fade-in"  className=" text-center shadow-xs shadow-white max-md:text-3xl text-white font-Mochiy text-5xl font-bold">Build Amazing <span className="   text-violet-400">Projects</span> Together</h1>
+          <p data-aos="fade-in"  className=" text-white py-2 max-md:text-lg font-poppins font-semibold text-xl p-1 text-center">Join a vibrant community of solo innovators and collaborators. Turn your ideas into reality with <br /> the perfect team at Cofoundio</p>
+          <img data-aos="fade-up" src={bannerimg} alt="bannerimg" className=" rounded-md mt-2 max-md:w-[80%]  w-1/2" />
         </section>
         <section  className=" min-h-screen">
-          <div className=" mx-[50px] my-24 flex flex-wrap items-center justify-center">
+          <div  className=" mx-[50px] my-24 flex flex-wrap items-center justify-center">
 
             <img className=" max-md:w-[90%] w-1/2  border-[3px] rounded-lg border-primary" src={profilePage} alt="" />
             <div className=" flex mx-4 max-md:mt-3  flex-col items-center justify-center">
@@ -68,7 +68,7 @@ const Landing = () => {
         </Link>
         </section>
 
-        <p className=" text-center text-white font-Inter pb-2 bg-dark-blue">Built With ❤️ by NandhaKrishnan &  Prasanth </p>
+        <p className=" text-center text-white font-Inter pb-2 bg-dark-blue">Built With ❤️ by NandhaKrishnan & Prasanth</p>
 
       </main>
     </>

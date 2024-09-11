@@ -53,11 +53,11 @@ const Profile = () => {
       return error.message;
     }
   };
-  const handleProfileUpload = async () => {
+  const handleProfileUpload = async (name,about) => {
     const url = await handleImgToCloud(profileImg);
-
+    
     if (tokenDetails) {
-      dispatch(updateProfileurl({ url, tokenDetails }));
+      dispatch(updateProfileurl({ url,name,about, tokenDetails }));
     }
   };
 

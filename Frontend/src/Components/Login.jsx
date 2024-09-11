@@ -13,8 +13,8 @@ import {
 import { toast } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
-import { FaEye, FaEyeDropper, FaEyeSlash } from "react-icons/fa6";
-import { LuEyeOff } from "react-icons/lu";
+import { FaEye, FaEyeSlash } from "react-icons/fa6";
+
 const Login = () => {
   const [isLogin, setisLogin] = useState(true);
   const [userName, setUserName] = useState("");

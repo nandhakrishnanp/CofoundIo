@@ -266,7 +266,7 @@ function Chat({ team }) {
           </div>
         )}
         <div>
-          <div ref={containerRef} />
+          <div ref={containerRef}></div>
           <form
             className="flex  bottom-2 items-center  justify-center fixed gap-3 m-2 w-[70%] "
             onSubmit={(e) => e.preventDefault()}

@@ -65,7 +65,7 @@ const likeOrDislke = async (req, res) => {
    });
 
  if (post.likes.includes(userId)) {
-  //not working dislike
+
   post.likes = post.likes.filter((id) => !id.equals(userId));
   
     await post.save();

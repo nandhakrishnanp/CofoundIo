@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 import addimg from "../assets/addimg.svg";
+
 const Changeprofile = ({
   setOpenFile,
   setProfileImg,
   profileImg,
   handleProfileUpload,
 }) => {
+   
+  const [name,setName] = useState("")
+  const [about , setAbout] =useState("")
+
   return (
     <div className="absolute flex flex-col items-center justify-center left-0 top-0 z-10 w-[100%]  backdrop-blur-sm bg-Secondary/50  h-screen  ">
       <div data-aos="zoom-in" className=" relative p-5 bg-white   w-1/2 h-1/2  overflow-y-scroll max-md:w-[80%] rounded-lg rounded-b-none">
@@ -18,15 +23,19 @@ const Changeprofile = ({
             Name:
           </p>
           <input
+          value={name}
+          onChange={(e)=> setName(e.target.value)}
             type="text"
             placeholder="Enter Your FullName"
             className="ring-2  ml-4 h-10  focus:bg-purple-100/20 ring-primary w-[80%] border-0 my-1 p-4 focus:ring-2  placeholder:font-poppins   placeholder:text-dark-blue font-poppins  rounded-md  outline-none "
           />
 
           <p className="  font-poppins text-md  pt-2  font-medium  text-slate-500">
-            TagLine:
+            about:
           </p>
           <input
+            value={about}
+            onChange={(e)=> setAbout(e.target.value)}
             type="text"
             placeholder="Enter TagLine"
             className="ring-2  ml-4 h-10  focus:bg-purple-100/20 ring-primary w-[80%] border-0 my-1 p-4 focus:ring-2  placeholder:font-poppins   placeholder:text-dark-blue font-poppins  rounded-md  outline-none"
@@ -82,7 +91,7 @@ const Changeprofile = ({
         <button
           onClick={() => {
             if (profileImg) {
-              handleProfileUpload();
+              handleProfileUpload(name,about);
             } else {
               toast.error("No Image Selected");
             }

@@ -44,11 +44,11 @@ const fetchUserDataByID = createAsyncThunk("User/fetchUserByID",async(userId)=>{
 
 const updateProfileurl = createAsyncThunk(
   "/user/profileImg",
-  async ({ url, tokenDetails }) => {
+  async ({ url, tokenDetails , about , name }) => {
     try {
       const response = await axios.put(
         "/user/updateProfile",
-        { profileUrl: url },
+        { profileUrl: url , about, name   },
         {
           headers: {
             Authorization: `Bearer ${tokenDetails}`,

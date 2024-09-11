@@ -2,13 +2,14 @@ const User = require("../Model/userModel");
 
 const updateProfile = async (req, res) => {
 
-  const { profileUrl } = req.body;
-
+  const { profileUrl , name , about } = req.body;
+   const updateData={}
+  if (profileUrl) updateData.profileUrl = profileUrl;
+  if (name) updateData.name = name;
+  if (about) updateData.about = about;
   const userId = req.user.userId;
-
-  const user = await User.findByIdAndUpdate(userId, {
-    profileUrl: profileUrl,
-  });
+   
+  const user = await User.findByIdAndUpdate(userId, updateData);
 
   if (!user) {
     res
