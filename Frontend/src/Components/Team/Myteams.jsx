@@ -18,7 +18,7 @@ const Myteams = () => {
 
   const MyAllTeams = useSelector(MyTeams);
   useEffect(() => {
-    if (MyAllTeams.length == 0) {
+    if (MyAllTeams&& MyAllTeams.length == 0) {
       nav("/exploreTeams");
     } else {
       socket.connect();
@@ -55,7 +55,7 @@ const Myteams = () => {
               </Link>
             </div>
             <div className="flex flex-col overflow-y-auto">
-              {MyAllTeams.length > 0
+              { MyAllTeams && MyAllTeams.length > 0
                 ? MyAllTeams.map((team) => (
                     <div
                       onClick={() => handleTeamChange(team)}
