@@ -58,10 +58,8 @@ const Navbar = () => {
               />
               {showDropdown && (
                 <div className="absolute top-10 right-0 bg-white rounded-md shadow-lg">
-                  <select name="" id="">
-                    <option value="1"> <BiUserCircle className=" text-lg"/>My Profile</option>
-                    <option value="2">LogOut</option>
-                  </select>
+                                     <Link  to="/profile"><p  className="p-3 flex items-center gap-1 hover:bg-gray-100"> <LuUserCircle className=" text-lg"/> My Profile</p></Link>
+                                     <p className="p-3 hover:bg-gray-100 flex items-center gap-1 " onClick={()=>handleLogOut()}> <LuLogOut className=" text-lg"/>LogOut</p>
                 </div>
               )}
             </div>
