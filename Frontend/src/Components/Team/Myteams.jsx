@@ -15,7 +15,7 @@ const Myteams = () => {
   const dispatch = useDispatch();
   let nav = useNavigate();
   const [currenTeam, setCurrenTeam] = useState(null);
-
+const [isVisible , setIsVisible] = useState(false);
   const MyAllTeams = useSelector(MyTeams);
   useEffect(() => {
     if (MyAllTeams&& MyAllTeams.length == 0) {
@@ -40,8 +40,13 @@ const Myteams = () => {
       <Navbar />
 
       <div className=" bg-Secondary w-full min-h-screen max-h-screen ">
+          <div className=" pt-[50px] max-md:visible md:hidden cursor-pointer" onClick={()=>
+            setIsVisible(!isVisible)
+          }>
+            <p className="text-4xl p-2">open</p>
+          </div>
         <div className=" flex  bg-violet-300 justify-center">
-          <div className="max-md:mt-[50px]  bg-white min-h-screen max-h-screen  overflow-y-hidden    w-[30%] ">
+          <div className={` ${isVisible? "max-md:visible" :"max-md:hidden"} bg-white min-h-screen max-h-screen  overflow-y-hidden    w-[30%] ` }>
             <div className=" flex justify-between  ">
               <h1 className=" font-bold text-2xl px-4   text-primary p-2">
                 My Teams.
@@ -54,7 +59,7 @@ const Myteams = () => {
                 />
               </Link>
             </div>
-            <div className="flex flex-col overflow-y-auto">
+            <div className="flex flex-col   overflow-y-auto">
               { MyAllTeams && MyAllTeams.length > 0
                 ? MyAllTeams.map((team) => (
                     <div

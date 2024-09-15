@@ -1,7 +1,7 @@
 
 
 import {io} from 'socket.io-client';
-const serverUrl = 'http://localhost:3001/';
+const serverUrl = 'https://appsail-50022206016.development.catalystappsail.in/';
 
 const socket = io(serverUrl);
 
